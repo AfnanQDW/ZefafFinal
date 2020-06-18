@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "714562507240",
+    "firebase_url": "https://zefaf-5b59a.firebaseio.com",
+    "project_id": "zefaf-5b59a",
+    "storage_bucket": "zefaf-5b59a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714562507240:android:efb57f187e661c90cb145d",
+        "android_client_info": {
+          "package_name": "com.afq.zefaf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714562507240-shd1mik8ud155sn2hrq3dmjc1au702c9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.afq.zefaf",
+            "certificate_hash": "271ed95a5aaee8086b10568bfea8439f1585390d"
+          }
+        },
+        {
+          "client_id": "714562507240-tg8t0rhsdbpofs6b9pdooi2nqg82jgil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxnPpqetayVcn_ll-6DbY8XysJyYFpzIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714562507240-tg8t0rhsdbpofs6b9pdooi2nqg82jgil.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714562507240:android:f5669a9b1e08c3fecb145d",
+        "android_client_info": {
+          "package_name": "com.zefaf.zefaffinal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714562507240-tg8t0rhsdbpofs6b9pdooi2nqg82jgil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxnPpqetayVcn_ll-6DbY8XysJyYFpzIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714562507240-tg8t0rhsdbpofs6b9pdooi2nqg82jgil.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714562507240:android:b62360bc3d755e82cb145d",
+        "android_client_info": {
+          "package_name": "lubna.proiectandroid.com.zafafbusiness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714562507240-tg8t0rhsdbpofs6b9pdooi2nqg82jgil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxnPpqetayVcn_ll-6DbY8XysJyYFpzIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714562507240-tg8t0rhsdbpofs6b9pdooi2nqg82jgil.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

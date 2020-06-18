@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">زفاف</string>
+    <string name="bookmarks">المفضلة</string>
+    <string name="reservations">الحجوزات</string>
+    <string name="credit_card">بطاقة الدفع</string>
+    <string name="language">اللغة</string>
+    <string name="terms_of_service">البنود والشروط</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="help_center">مركز المساعدة</string>
+    <string name="about_us">عن التطبيق</string>
+    <string name="current_res">الحالية</string>
+    <string name="previous_res">السابقة</string>
+
+    <string name="no_reservations">لا توجد لديك أي حجوزات</string>
+    <string name="full_name">الاسم بالكامل</string>
+    <string name="email_address">البريد الإلكتروني</string>
+    <string name="mobile_number">رقم الموبايل</string>
+    <string name="password">كلمة المرور</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="sign_in_txt">تسجيل دخول</string>
+    <string name="create_new_account">انشاء حساب جديد</string>
+    <string name="just_browsing">تصفح فقط</string>
+    <string name="about_us_txt">تطبيق يقوم بجمع كل صالات الأفراح في غزة ويعرضها للمستخدم ليتمكن من خلال التطبيق رؤية
+        صور ومعرفة تفاصيل متعلقة بالصالة من سعر ومواعيد يستطيع من خلال التطبيق حجز الصالة بالتاريخ المطلوب.</string>
+    <string name="edit">تعديل</string>
+    <string name="edit_profile_info">تعديل بيانات الحساب</string>
+    <string name="edit_btn">حفظ التعديلات</string>
+    <string name="reservation_confirmed">تم تاكيد الحجز</string>
+    <string name="reservation_denied">الرجاء اختيار موعد اخر</string>
+    <string name="reservation_checking">الموعد قيد المراجعة</string>
+</resources>
