@@ -1,4 +1,4 @@
-package com.afq.zefaf.Adapter;
+package com.zefaf.zefaffinal.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

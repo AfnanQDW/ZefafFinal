@@ -1,4 +1,4 @@
-package com.afq.zefaf.Fragments;
+package com.zefaf.zefaffinal.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;

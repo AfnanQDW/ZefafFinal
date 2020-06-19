@@ -1,5 +1,6 @@
 package com.zefaf.zefaffinal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,14 @@ import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import static com.zefaf.zefaffinal.ActivityMap.Adress;
+import static com.zefaf.zefaffinal.ActivityMap.Desc;
+import static com.zefaf.zefaffinal.ActivityMap.IMG;
+import static com.zefaf.zefaffinal.ActivityMap.IMGFav;
+import static com.zefaf.zefaffinal.ActivityMap.IMGLocation;
+import static com.zefaf.zefaffinal.ActivityMap.Name;
+import static com.zefaf.zefaffinal.ActivityMap.Price;
 
 public class HajsALan extends AppCompatActivity {
 
@@ -44,6 +53,17 @@ public class HajsALan extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hajsalan);
+
+
+        Intent intent = getIntent();
+        String texnmae = intent.getStringExtra(Name);
+        String texprice = intent.getStringExtra(Price);
+        String texadress = intent.getStringExtra(Adress);
+        String texdese = intent.getStringExtra(Desc);
+
+        int img = intent.getIntExtra(IMG, 0);
+        int imgfav = intent.getIntExtra(IMGFav, 0);
+        int imagloction = intent.getIntExtra(IMGLocation, 0);
 
 
         database = FirebaseDatabase.getInstance();

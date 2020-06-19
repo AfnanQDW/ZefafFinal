@@ -110,7 +110,6 @@ public class EditProfileInfo extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(EditProfileInfo.this, "Profile updated", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(EditProfileInfo.this, user.getDisplayName(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

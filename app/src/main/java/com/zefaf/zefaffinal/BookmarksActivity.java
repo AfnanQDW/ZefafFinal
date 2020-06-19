@@ -51,10 +51,6 @@ public class BookmarksActivity extends AppCompatActivity {
 
 
     public void createExampleList() {
-//
-//
-//        myRef.child("Bookmark").push().setValue(new Bookmark(R.drawable.pic, "venue 1", "address", "4"));
-//        myRef.child("Bookmark").push().setValue(new Bookmark(R.drawable.pic, "venue 2", "address 2", "4"));
 
         myRef.child("Bookmark").addChildEventListener(new ChildEventListener() {
             @Override

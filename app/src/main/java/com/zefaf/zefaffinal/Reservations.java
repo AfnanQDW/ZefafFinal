@@ -1,17 +1,19 @@
 package com.zefaf.zefaffinal;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import com.zefaf.zefaffinal.Adapter.PagerAdapter;
-import com.afq.zefaf.Fragments.ItemFragment;
-import com.afq.zefaf.Fragments.NoReservationsFragment;
 import com.afq.zefaf.Fragments.dummy.DummyContent;
+import com.zefaf.zefaffinal.Fragments.ItemFragment;
+import com.zefaf.zefaffinal.Fragments.NoReservationsFragment;
 import com.zefaf.zefaffinal.Model.Tabs;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -30,6 +32,7 @@ public class Reservations extends AppCompatActivity implements ItemFragment.OnLi
     FragmentManager fm;
     FragmentTransaction ft;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,7 @@ public class Reservations extends AppCompatActivity implements ItemFragment.OnLi
         setupTabs();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void setupTabs(){
 
         mTabs = findViewById(R.id.tabs);
