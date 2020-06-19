@@ -45,7 +45,7 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
     @NonNull
     @Override
     public Hajzviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_hajz, null);
         Hajzviewholder holder = new Hajzviewholder(view);
 
 
