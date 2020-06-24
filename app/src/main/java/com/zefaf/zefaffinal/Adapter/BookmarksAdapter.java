@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.BookmarkViewHolder> {
-    ArrayList<Bookmark> bookmarks = new ArrayList<>();
+    ArrayList<Bookmark> bookmarks;
     OnItemClickListener listener;
 
 
@@ -39,8 +39,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.Book
     @Override
     public BookmarkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_bookmark, parent, false);
-        BookmarkViewHolder holder = new BookmarkViewHolder(view, listener);
-        return holder;
+        return new BookmarkViewHolder(view, listener);
     }
 
     @Override

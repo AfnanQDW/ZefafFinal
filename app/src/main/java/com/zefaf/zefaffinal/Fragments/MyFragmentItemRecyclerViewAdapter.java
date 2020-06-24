@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-//import com.zefaf.zefaffinal.Fragments.dummy.DummyContent.DummyItem;
 import com.zefaf.zefaffinal.Model.Reservation;
 import com.zefaf.zefaffinal.R;
 
@@ -17,17 +16,17 @@ public class MyFragmentItemRecyclerViewAdapter extends RecyclerView.Adapter<MyFr
 
     private final List<Reservation> mValues;
 
-    public static final int RESERVATION_CHECKING = 0;
+    public static final int RESERVATION_PENDING = 0;
     public static final int RESERVATION_CONFIRMED = 1;
     public static final int RESERVATION_DENIED = 2;
 
-//    private final OnListFragmentInteractionListener mListener;
+    private final ItemFragment.OnListFragmentInteractionListener mListener;
 
     public MyFragmentItemRecyclerViewAdapter(List<Reservation> items
-//            , OnListFragmentInteractionListener listener
+            , ItemFragment.OnListFragmentInteractionListener listener
     ) {
         mValues = items;
-//        mListener = listener;
+        mListener = listener;
 
     }
 
@@ -49,8 +48,8 @@ public class MyFragmentItemRecyclerViewAdapter extends RecyclerView.Adapter<MyFr
             holder.txtReservationStatus.setText(R.string.reservation_confirmed);
         } else if (mValues.get(position).getReservationStatus() == RESERVATION_DENIED) {
             holder.txtReservationStatus.setText(R.string.reservation_denied);
-        } else if (mValues.get(position).getReservationStatus() == RESERVATION_CHECKING) {
-            holder.txtReservationStatus.setText(R.string.reservation_checking);
+        } else if (mValues.get(position).getReservationStatus() == RESERVATION_PENDING) {
+            holder.txtReservationStatus.setText(R.string.reservation_pending);
         }
 
     }
@@ -75,6 +74,19 @@ public class MyFragmentItemRecyclerViewAdapter extends RecyclerView.Adapter<MyFr
             txtVenueName = view.findViewById(R.id.txtVenueName);
             txtVenueAddress = view.findViewById(R.id.txtVenueAddress);
             txtReservationStatus = view.findViewById(R.id.txtReservationStatus);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.onListFragmentInteraction(position);
+                        }
+                    }
+                }
+            });
+
         }
 
         @Override

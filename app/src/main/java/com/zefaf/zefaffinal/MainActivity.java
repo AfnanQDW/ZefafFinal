@@ -1,7 +1,5 @@
 package com.zefaf.zefaffinal;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,15 +7,19 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.zefaf.zefaffinal.Adapter.CustomListAdapter;
-import com.zefaf.zefaffinal.Model.MenuItems;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 import com.zefaf.zefaffinal.Adapter.CustomListAdapter;
+import com.zefaf.zefaffinal.Model.MenuItems;
 
 import java.util.ArrayList;
+
+import androidx.appcompat.app.AppCompatActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference myRef = database.getReference("ZEFAF");
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
+    private CircleImageView profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +46,17 @@ public class MainActivity extends AppCompatActivity {
 
         lv = findViewById(R.id.lv);
 
+        profileImage = findViewById(R.id.profile_image);
         txtUserName = findViewById(R.id.txtUserName);
         txtUserEmail = findViewById(R.id.txtUserEmail);
 
         if (auth.getCurrentUser() != null) {
             txtUserName.setText(auth.getCurrentUser().getDisplayName());
             txtUserEmail.setText(auth.getCurrentUser().getEmail());
+            if (auth.getCurrentUser().getPhotoUrl() != null) {
+                Picasso.get().load(auth.getCurrentUser().getPhotoUrl().toString()).into(profileImage);
+            }
+
         }
 
         LinearLayout profileInfo = findViewById(R.id.profileInfo);
@@ -86,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent;
-                switch (i){
+                switch (i) {
                     case 0:
                         intent = new Intent(MainActivity.this, BookmarksActivity.class);
                         startActivity(intent);
@@ -101,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     case 3:
                         //privacy_policy
                         break;
-                    case 4 :
+                    case 4:
                         //help_center
                         break;
                     case 5:

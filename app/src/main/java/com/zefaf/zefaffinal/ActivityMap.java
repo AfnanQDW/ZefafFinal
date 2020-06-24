@@ -2,27 +2,38 @@ package com.zefaf.zefaffinal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.zefaf.zefaffinal.Adapter.HajzAdapter;
+import com.zefaf.zefaffinal.Model.Bookmark;
 import com.zefaf.zefaffinal.Model.Hajz;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ActivityMap extends AppCompatActivity {
+
+    private ArrayList<Hajz> mUploads = new ArrayList<>();
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("ZEFAF");
 
     private ImageView mImgNotifications;
     private ImageView mImgMenu;
@@ -31,8 +42,7 @@ public class ActivityMap extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private HajzAdapter mAdapter;
     private ProgressBar mProgressCircle;
-    private DatabaseReference mDatabaseRef;
-    private ArrayList<Hajz> mUploads;
+
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -92,16 +102,15 @@ public class ActivityMap extends AppCompatActivity {
         });*/
     }
 
-    public void showdata(){
+    public void showdata() {
         mRecyclerView = findViewById(R.id.res);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
-        mUploads = new ArrayList<>();
-        mAdapter = new HajzAdapter( mUploads,ActivityMap.this);
-
+        mAdapter = new HajzAdapter(mUploads, ActivityMap.this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
         mAdapter.OnHajzClickListener(new HajzAdapter.OnHajzClickListener() {
             @Override
             public void onHajzItemClick(int position) {
@@ -113,38 +122,59 @@ public class ActivityMap extends AppCompatActivity {
                 detailIntent.putExtra(Name, clickedItem.getName());
 
                 detailIntent.putExtra(Price, clickedItem.getPrice());
-                detailIntent.putExtra(IMG, clickedItem.getImg());
-                detailIntent.putExtra(IMGFav, clickedItem.getImgfav());
-
-                detailIntent.putExtra(IMGLocation, clickedItem.getImgloction());
+                detailIntent.putExtra(IMG, clickedItem.getLink());
 
                 startActivity(detailIntent);
             }
         });
 
-
-
         mProgressCircle = findViewById(R.id.progress_circle);
-        // mDatabaseRef = FirebaseDatabase.getInstance().getReference("Venues");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("ZEFAF").child("Venues");
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mUploads.clear();
-                Hajz upload = dataSnapshot.getValue(Hajz.class);
-                mUploads.add(upload);
 
-//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//                    Log.d("kkkd", "onChildChange"+mUploads.size());
-//                }
-                mProgressCircle.setVisibility(View.GONE);
+        myRef.child("venues").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+
+                Hajz upload = dataSnapshot.getValue(Hajz.class);
+                Log.i("aa", upload.toString());
+
+                mUploads.add(upload);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(ActivityMap.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
+//        myRef.child("Venues").child("الجنوب").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                mUploads.clear();
+//                Hajz upload = dataSnapshot.getValue(Hajz.class);
+//                mUploads.add(upload);
+//
+
+//                mProgressCircle.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
     }
@@ -160,32 +190,3 @@ public class ActivityMap extends AppCompatActivity {
 
 
 }
-//        mDatabaseRef.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                Toast.makeText(ActivityMap.this, "data added", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Toast.makeText(ActivityMap.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-//                mProgressCircle.setVisibility(View.INVISIBLE);
-//            }
-//        });

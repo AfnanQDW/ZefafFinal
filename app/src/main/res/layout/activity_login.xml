@@ -38,7 +38,8 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/selector_edittext"
         android:text="@string/create_new_account"
-        android:textColor="#F52D56" />
+        android:textStyle="bold"
+        android:textColor="#fff" />
 
 
     <ImageView

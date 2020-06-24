@@ -2,33 +2,29 @@ package com.zefaf.zefaffinal;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Toast;
 
-import com.zefaf.zefaffinal.Adapter.PagerAdapter;
-import com.afq.zefaf.Fragments.dummy.DummyContent;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.zefaf.zefaffinal.Adapter.FragmentAdapter;
 import com.zefaf.zefaffinal.Fragments.ItemFragment;
-import com.zefaf.zefaffinal.Fragments.NoReservationsFragment;
-import com.zefaf.zefaffinal.Model.Tabs;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
+import com.zefaf.zefaffinal.Model.Reservation;
 
-import java.util.ArrayList;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 public class Reservations extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
 
     private MaterialToolbar mToolbar;
     private TabLayout mTabs;
 
-    PagerAdapter pagerAdapter;
-    ViewPager viewPager;
-    ArrayList<Tabs> tabs;
+    FragmentAdapter myAdapter;
+    ViewPager2 vp2;
     FragmentManager fm;
     FragmentTransaction ft;
 
@@ -49,20 +45,30 @@ public class Reservations extends AppCompatActivity implements ItemFragment.OnLi
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void setupTabs(){
+        vp2 = findViewById(R.id.pager);
+
+        myAdapter = new FragmentAdapter(this);
+        vp2.setAdapter(myAdapter);
 
         mTabs = findViewById(R.id.tabs);
-        viewPager = findViewById(R.id.pager);
+        TabLayoutMediator tabMed = new TabLayoutMediator(mTabs, vp2, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                switch(position){
+                    case 0:
+                        tab.setText(getString(R.string.current_res));
+                        break;
+                    case 1:
+                        tab.setText(getString(R.string.previous_res));
+                        break;
+                }
+            }
+        });
+
+        tabMed.attach();
 
         mTabs.setTabTextColors(getColor(R.color.black), getColor(R.color.accent));
         mTabs.setSelectedTabIndicatorColor(getColor(R.color.accent));
-
-        tabs = new ArrayList<>();
-        tabs.add(new Tabs(getString(R.string.current_res),new NoReservationsFragment()));
-        tabs.add(new Tabs(getString(R.string.previous_res), new ItemFragment()));
-
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, tabs);
-        viewPager.setAdapter(pagerAdapter);
-        mTabs.setupWithViewPager(viewPager);
 
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
@@ -70,8 +76,9 @@ public class Reservations extends AppCompatActivity implements ItemFragment.OnLi
         ft.commit();
     }
 
+
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(int position) {
 
     }
 }

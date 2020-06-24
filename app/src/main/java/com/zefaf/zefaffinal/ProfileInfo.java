@@ -1,18 +1,18 @@
 package com.zefaf.zefaffinal;
 
 import android.content.Intent;
+import android.content.pm.SigningInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.zefaf.zefaffinal.Adapter.CustomListAdapter;
 import com.zefaf.zefaffinal.Model.MenuItems;
 import com.google.firebase.auth.FirebaseAuth;
-import com.zefaf.zefaffinal.Adapter.CustomListAdapter;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,6 @@ public class ProfileInfo extends AppCompatActivity {
     private ListView mLv;
     private TextView txtEditProfileInfo;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +43,13 @@ public class ProfileInfo extends AppCompatActivity {
         mLv = findViewById(R.id.lv);
         txtEditProfileInfo = findViewById(R.id.txtEditProfileInfo);
 
-        if (auth.getCurrentUser() != null) {
-            mTxtUserName.setText(auth.getCurrentUser().getDisplayName());
-            mTxtUserEmail.setText(auth.getCurrentUser().getEmail());
-        }
+//        if (auth.getCurrentUser() != null) {
+//            mTxtUserName.setText(auth.getCurrentUser().getDisplayName());
+//            mTxtUserEmail.setText(auth.getCurrentUser().getEmail());
+//            if (auth.getCurrentUser().getPhotoUrl() != null) {
+//                Picasso.get().load(auth.getCurrentUser().getPhotoUrl().toString()).into(mProfileImage);
+//            }
+//        }
 
         txtEditProfileInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,22 +62,6 @@ public class ProfileInfo extends AppCompatActivity {
         MenuList();
 
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        if (requestCode == 0) {
-            if (resultCode == RESULT_OK) {
-                if (intent != null) {
-
-                    uri = intent.getData();
-                    mProfileImage.setImageURI(uri);
-                }
-            }
-        }
-
-    }
-
 
     public void MenuList() {
 
@@ -112,4 +98,19 @@ public class ProfileInfo extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (auth.getCurrentUser() == null) {
+            finish();
+            startActivity(new Intent(ProfileInfo.this, SignInActivity.class));
+        }else {
+            mTxtUserName.setText(auth.getCurrentUser().getDisplayName());
+            mTxtUserEmail.setText(auth.getCurrentUser().getEmail());
+            if (auth.getCurrentUser().getPhotoUrl() != null) {
+                Picasso.get().load(auth.getCurrentUser().getPhotoUrl().toString()).into(mProfileImage);
+            }
+        }
+    }
 }

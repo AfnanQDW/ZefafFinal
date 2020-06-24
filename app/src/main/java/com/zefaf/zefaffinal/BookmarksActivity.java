@@ -2,16 +2,16 @@ package com.zefaf.zefaffinal;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.ProgressBar;
 
-import com.zefaf.zefaffinal.Adapter.BookmarksAdapter;
-import com.zefaf.zefaffinal.Model.Bookmark;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.zefaf.zefaffinal.Adapter.BookmarksAdapter;
+import com.zefaf.zefaffinal.Model.Bookmark;
 
 import java.util.ArrayList;
 
@@ -24,11 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class BookmarksActivity extends AppCompatActivity {
 
 
-    private ArrayList<Bookmark> mExampleList= new ArrayList<>();;
+    private ArrayList<Bookmark> mExampleList = new ArrayList<>();
 
     private RecyclerView mBookmarksRecyclerView;
     private BookmarksAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ProgressBar progressCircle;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("ZEFAF");
@@ -38,6 +39,8 @@ public class BookmarksActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
+
+        progressCircle = findViewById(R.id.progress_circle);
 
         createExampleList();
         buildRecyclerView();
@@ -52,9 +55,12 @@ public class BookmarksActivity extends AppCompatActivity {
 
     public void createExampleList() {
 
+        progressCircle.setVisibility(View.VISIBLE);
+
         myRef.child("Bookmark").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                progressCircle.setVisibility(View.INVISIBLE);
 
                 Bookmark bkm = dataSnapshot.getValue(Bookmark.class);
                 mExampleList.add(bkm);

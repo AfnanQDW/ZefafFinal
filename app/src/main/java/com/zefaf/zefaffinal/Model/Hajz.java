@@ -2,27 +2,17 @@ package com.zefaf.zefaffinal.Model;
 
 public class Hajz {
     private String name,price,adress,dese;
-    private int img,imgfav,imgloction;
+    private String link;
 
-    public Hajz(String name, String price, String adress,String dese, int img, int imgfav, int imgloction) {
+    public Hajz(String name, String price, String adress,String dese, String link) {
         this.name = name;
         this.price = price;
         this.adress = adress;
         this.dese = dese;
-        this.img = img;
-        this.imgfav = imgfav;
-        this.imgloction = imgloction;
+        this.link = link;
     }
 
     public Hajz() {
-    }
-
-    public int getImgloction() {
-        return imgloction;
-    }
-
-    public void setImgloction(int imgloction) {
-        this.imgloction = imgloction;
     }
 
     public String getDese() {
@@ -57,20 +47,11 @@ public class Hajz {
         this.adress = adress;
     }
 
-    public int getImg() {
-        return img;
+    public String getLink() {
+        return link;
     }
 
-    public void setImg(int img) {
-        this.img = img;
+    public void setLink(String link) {
+        this.link = link;
     }
-
-    public int getImgfav() {
-        return imgfav;
-    }
-
-    public void setImgfav(int imgfav) {
-        this.imgfav = imgfav;
-    }
-
 }

@@ -13,12 +13,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.zefaf.zefaffinal.Model.User;
 
 public class Regster extends AppCompatActivity {
 
@@ -28,9 +32,17 @@ public class Regster extends AppCompatActivity {
     private EditText editemail;
     private EditText editpassword;
     private Button buttonlogin;
+
     FirebaseAuth firebaseAuth;
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("ZEFAF");
+
     String mobile;
+    String name;
+    String email;
+    String password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +62,48 @@ public class Regster extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 registerUser();
+
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                if (user != null) {
+
+                    user.updateEmail(email);
+
+                    UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(name)
+                            .build();
+
+                    user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(Regster.this, "Profile updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                    User u = new User();
+                    u.setName(user.getDisplayName());
+                    u.setEmail(user.getEmail());
+
+                    myRef.child("Users").child(user.getUid()).setValue(u).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(Regster.this, "user added", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+
             }
         });
     }
 
     private void registerUser() {
-        String name = editname.getText().toString().trim();
+        name = editname.getText().toString().trim();
 //        String phone = editphone.getText().toString().trim();
-        String email = editemail.getText().toString().trim();
-        String password = editpassword.getText().toString().trim();
+        email = editemail.getText().toString().trim();
+        password = editpassword.getText().toString().trim();
 
         if (email.isEmpty()) {
             editemail.setError("Email is required");
@@ -102,25 +147,6 @@ public class Regster extends AppCompatActivity {
 //            editphone.requestFocus();
 //            return;
 //        }
-
-
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-
-        if (user != null) {
-
-            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(name)
-                    .build();
-
-            user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()){
-                        Toast.makeText(Regster.this, "Profile updated", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
 
 
         progressBar.setVisibility(View.VISIBLE);

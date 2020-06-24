@@ -27,5 +27,5 @@
     <string name="edit_btn">حفظ التعديلات</string>
     <string name="reservation_confirmed">تم تاكيد الحجز</string>
     <string name="reservation_denied">الرجاء اختيار موعد اخر</string>
-    <string name="reservation_checking">الموعد قيد المراجعة</string>
+    <string name="reservation_pending">الموعد قيد المراجعة</string>
 </resources>
