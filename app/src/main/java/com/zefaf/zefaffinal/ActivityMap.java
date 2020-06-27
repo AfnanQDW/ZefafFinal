@@ -1,29 +1,35 @@
 package com.zefaf.zefaffinal;
 
+import android.app.UiAutomation;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.zefaf.zefaffinal.Adapter.HajzAdapter;
-import com.zefaf.zefaffinal.Model.Bookmark;
 import com.zefaf.zefaffinal.Model.Hajz;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +41,8 @@ public class ActivityMap extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("ZEFAF");
 
+    FirebaseAuth firebaseAuth;
+
     private ImageView mImgNotifications;
     private ImageView mImgMenu;
     private EditText mEditTextserash;
@@ -45,9 +53,8 @@ public class ActivityMap extends AppCompatActivity {
 
     private RecyclerView.LayoutManager mLayoutManager;
 
-
     public static final String Name = "name";
-    public static final String Adress = "adress";
+    public static final String Address = "adress";
     public static final String Price = "price";
     public static final String Desc = "descraption";
     public static final String IMG = "img";
@@ -55,16 +62,19 @@ public class ActivityMap extends AppCompatActivity {
     public static final String IMGLocation = "imgloction";
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
         showdata();
+        buildRecycler();
 
         mImgNotifications = findViewById(R.id.imgNotifications);
         mImgMenu = findViewById(R.id.imgMenu);
         mEditTextserash = findViewById(R.id.editTextserash);
+        mProgressCircle = findViewById(R.id.progress_circle);
 
         mImgMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +91,7 @@ public class ActivityMap extends AppCompatActivity {
             }
         });
 
-      /*  mEditTextserash = findViewById(R.id.editTextserash);
+        mEditTextserash = findViewById(R.id.editTextserash);
 
         mEditTextserash.addTextChangedListener(new TextWatcher() {
             @Override
@@ -97,12 +107,11 @@ public class ActivityMap extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 filter(s.toString());
-
             }
-        });*/
+        });
     }
 
-    public void showdata() {
+    public void buildRecycler() {
         mRecyclerView = findViewById(R.id.res);
         mRecyclerView.setHasFixedSize(true);
 
@@ -117,7 +126,7 @@ public class ActivityMap extends AppCompatActivity {
                 Intent detailIntent = new Intent(ActivityMap.this, HajsALan.class);
                 Hajz clickedItem = mUploads.get(position);
 
-                detailIntent.putExtra(Adress, clickedItem.getAdress());
+                detailIntent.putExtra(Address, clickedItem.getAdress());
                 detailIntent.putExtra(Desc, clickedItem.getDese());
                 detailIntent.putExtra(Name, clickedItem.getName());
 
@@ -126,19 +135,32 @@ public class ActivityMap extends AppCompatActivity {
 
                 startActivity(detailIntent);
             }
+
+            @Override
+            public void onBookmarkClick(int position) {
+                Hajz h = mUploads.get(position);
+                myRef.child("Bookmark").push().setValue(h);
+                Toast.makeText(ActivityMap.this, "تمت اضافة الصالة للمفضلة" , Toast.LENGTH_SHORT).show();
+                }
         });
+    }
 
-        mProgressCircle = findViewById(R.id.progress_circle);
+    public void showdata() {
 
-        myRef.child("venues").addChildEventListener(new ChildEventListener() {
+        myRef.child("Venues").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+                Log.i("aa",dataSnapshot.toString());
 
-                Hajz upload = dataSnapshot.getValue(Hajz.class);
-                Log.i("aa", upload.toString());
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
 
-                mUploads.add(upload);
+                    Hajz upload = snap.getValue(Hajz.class);
+
+                    mUploads.add(upload);
+                    mAdapter.notifyDataSetChanged();
+
+                }
             }
 
             @Override
@@ -156,37 +178,19 @@ public class ActivityMap extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(ActivityMap.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
-//        myRef.child("Venues").child("الجنوب").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                mUploads.clear();
-//                Hajz upload = dataSnapshot.getValue(Hajz.class);
-//                mUploads.add(upload);
-//
-
-//                mProgressCircle.setVisibility(View.GONE);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
-
     }
-   /* private void filter(String text) {
+
+
+    private void filter(String text) {
         ArrayList<Hajz> filteredList = new ArrayList<>();
-        for (Hajz item : mExampleList) {
+        for (Hajz item : mUploads) {
             if (item.getName().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);
             }
         }
         mAdapter.filterList(filteredList);
-    }*/
-
+    }
 
 }

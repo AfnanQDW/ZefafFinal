@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.zefaf.zefaffinal.Model.Hajz;
 import com.zefaf.zefaffinal.R;
 
@@ -26,6 +27,9 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
 
     public interface OnHajzClickListener {
         void onHajzItemClick(int position);
+
+        void onBookmarkClick(int position);
+
     }
 
     public void filterList(ArrayList<Hajz> filteredList) {
@@ -48,7 +52,7 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
     @NonNull
     @Override
     public Hajzviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_bookmark, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_bookmark, parent, false);
         Hajzviewholder holder = new Hajzviewholder(view);
         return holder;
     }
@@ -56,17 +60,10 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
     @Override
     public void onBindViewHolder(@NonNull Hajzviewholder holder, int position) {
         Hajz hajz = hajzs.get(position);
-//        holder.mTextname.setText(employee.getName());
-//        holder.mTextadress.setText(employee.getAdress());
-//        holder.mTextprice.setText(employee.getPrice());
-//        holder.mTextdese.setText(employee.getDese());
-//        holder.mImag.setImageResource(employee.getImg());
-//        holder.mImagfav.setImageResource(employee.getImgfav());
-//        holder.imgloction.setImageResource(employee.getImgloction());
 
         holder.txtVenueName.setText(hajz.getName());
         holder.txtVenueAddress.setText(hajz.getAdress());
-        holder.imgVenueImage.setImageURI(Uri.parse(hajz.getLink()));
+        Picasso.get().load(hajz.getLink()).into(holder.imgVenueImage);
         holder.rating.setRating(4);
     }
 
@@ -77,33 +74,20 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
 
     class Hajzviewholder extends RecyclerView.ViewHolder {
 
-        //        private ImageView mImag;
-//        private ImageView mImagfav;
-//        private TextView mTextname;
-//        private TextView mTextadress;
-//        private ImageView imgloction;
-//        private TextView mTextprice;
-//        private TextView mTextdese;
         private ImageView imgVenueImage;
         private TextView txtVenueName;
         private RatingBar rating;
         private TextView txtVenueAddress;
+        private ImageView mBookmarkImage;
 
         public Hajzviewholder(@NonNull View itemView) {
             super(itemView);
-
-//            mImag = itemView.findViewById(R.id.imag);
-//            imgloction = itemView.findViewById(R.id.imagloction);
-//            mImagfav = itemView.findViewById(R.id.imagfav);
-//            mTextname = itemView.findViewById(R.id.textname);
-//            mTextadress = itemView.findViewById(R.id.textadress);
-//            mTextprice = itemView.findViewById(R.id.textprice);
-//            mTextdese = itemView.findViewById(R.id.texdese);
 
             imgVenueImage = itemView.findViewById(R.id.imgVenueImage);
             txtVenueName = itemView.findViewById(R.id.txtVenueName);
             rating = itemView.findViewById(R.id.rating);
             txtVenueAddress = itemView.findViewById(R.id.txtVenueAddress);
+            mBookmarkImage = itemView.findViewById(R.id.imageView13);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,6 +107,17 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
                             intent.setAction(Intent.ACTION_VIEW);
                             intent.setData(Uri.parse("geo:19.067,72.877"));
                             mContext.startActivity(intent);
+                        }
+                    });
+                    mBookmarkImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (listener != null) {
+                                int position = getAdapterPosition();
+                                if (position != RecyclerView.NO_POSITION) {
+                                    listener.onBookmarkClick(position);
+                                }
+                            }
                         }
                     });
                 }

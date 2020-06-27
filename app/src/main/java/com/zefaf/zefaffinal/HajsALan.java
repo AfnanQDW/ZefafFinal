@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
+import com.squareup.picasso.Picasso;
 import com.zefaf.zefaffinal.Model.Reservation;
 
 import java.text.SimpleDateFormat;
@@ -23,11 +24,9 @@ import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import static com.zefaf.zefaffinal.ActivityMap.Adress;
+import static com.zefaf.zefaffinal.ActivityMap.Address;
 import static com.zefaf.zefaffinal.ActivityMap.Desc;
 import static com.zefaf.zefaffinal.ActivityMap.IMG;
-import static com.zefaf.zefaffinal.ActivityMap.IMGFav;
-import static com.zefaf.zefaffinal.ActivityMap.IMGLocation;
 import static com.zefaf.zefaffinal.ActivityMap.Name;
 import static com.zefaf.zefaffinal.ActivityMap.Price;
 
@@ -54,16 +53,13 @@ public class HajsALan extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hajsalan);
 
-
         Intent intent = getIntent();
         String texnmae = intent.getStringExtra(Name);
         String texprice = intent.getStringExtra(Price);
-        String texadress = intent.getStringExtra(Adress);
+        String texadress = intent.getStringExtra(Address);
         String texdese = intent.getStringExtra(Desc);
 
-        int img = intent.getIntExtra(IMG, 0);
-        int imgfav = intent.getIntExtra(IMGFav, 0);
-        int imagloction = intent.getIntExtra(IMGLocation, 0);
+        String img = intent.getStringExtra(IMG);
 
 
         database = FirebaseDatabase.getInstance();
@@ -72,13 +68,18 @@ public class HajsALan extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         imgVenueImage = findViewById(R.id.imgVenueImage);
+        Picasso.get().load(img).into(imgVenueImage);
         imgBookmark = findViewById(R.id.imgBookmark);
         txtVenueRating = findViewById(R.id.txtVenueRating);
         txtVenueAddress = findViewById(R.id.txtVenueAddress);
+        txtVenueAddress.setText(texadress);
         txtVenueDescription = findViewById(R.id.txtVenueDescription);
-        btnBook = findViewById(R.id.btnBook);
+        txtVenueDescription.setText(texdese);
         txtVenueName = findViewById(R.id.txtVenueName);
+        txtVenueName.setText(texnmae);
         txtVenuePrice = findViewById(R.id.txtVenuePrice);
+        txtVenuePrice.setText(texprice);
+        btnBook = findViewById(R.id.btnBook);
 
         imgBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,11 +91,9 @@ public class HajsALan extends AppCompatActivity {
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //pick date
                 pickDate();
             }
         });
-
 
     }
 
@@ -158,8 +157,8 @@ public class HajsALan extends AppCompatActivity {
     }
 
     public static String ConvertToDateString(Date date) {
-        SimpleDateFormat dateformat = new SimpleDateFormat("dd MMM yyyy");
-        return dateformat.format(date.getTime());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+        return dateFormat.format(date.getTime());
     }
 
 }

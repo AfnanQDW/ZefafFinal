@@ -15,9 +15,9 @@ import java.util.ArrayList;
 
 public class CustomListAdapter extends ArrayAdapter {
 
-    Context context;
-    int resource;
-    ArrayList<MenuItems> objects ;
+    private Context context;
+    private int resource;
+    private ArrayList<MenuItems> objects ;
 
     public CustomListAdapter(Context context, int resource, ArrayList objects) {
         super(context, resource, objects);

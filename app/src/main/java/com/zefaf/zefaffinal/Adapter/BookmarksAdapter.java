@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.zefaf.zefaffinal.Model.Bookmark;
 import com.zefaf.zefaffinal.R;
 
@@ -46,7 +47,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.Book
     public void onBindViewHolder(@NonNull BookmarkViewHolder holder, int position) {
         Bookmark bm = bookmarks.get(position);
 
-        holder.mImgVenueImage.setImageResource(bm.getVenuePic());
+        Picasso.get().load(bm.getVenuePic()).into(holder.mImgVenueImage);
         holder.rating.setRating(4);
         holder.mTxtVenueAddress.setText(bm.getVenueAddress());
         holder.mTxtVenueName.setText(bm.getVenueName());

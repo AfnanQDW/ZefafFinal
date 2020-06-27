@@ -1,15 +1,17 @@
 package com.zefaf.zefaffinal.Model;
 
 public class Hajz {
-    private String name,price,adress,dese;
+    private String name, price, adress, dese;
     private String link;
+    private String link2;
 
-    public Hajz(String name, String price, String adress,String dese, String link) {
+    public Hajz(String name, String price, String adress, String dese, String link, String link2) {
         this.name = name;
         this.price = price;
         this.adress = adress;
         this.dese = dese;
         this.link = link;
+        this.link2 = link2;
     }
 
     public Hajz() {
@@ -53,5 +55,13 @@ public class Hajz {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getLink2() {
+        return link2;
+    }
+
+    public void setLink2(String link2) {
+        this.link2 = link2;
     }
 }

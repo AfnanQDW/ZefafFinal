@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Bookmark {
 
-    private int venuePic;
+    private String venuePic;
     private String venueName;
     private String venueAddress;
     private String venueRating;
@@ -15,7 +15,7 @@ public class Bookmark {
     public Bookmark() {
     }
 
-    public Bookmark(int venuePic, String venueName, String venueAddress, String venueRating) {
+    public Bookmark(String venuePic, String venueName, String venueAddress, String venueRating) {
         this.venuePic = venuePic;
         this.venueName = venueName;
         this.venueAddress = venueAddress;
@@ -34,11 +34,11 @@ public class Bookmark {
         return result;
     }
 
-    public int getVenuePic() {
+    public String getVenuePic() {
         return venuePic;
     }
 
-    public void setVenuePic(int venuePic) {
+    public void setVenuePic(String venuePic) {
         this.venuePic = venuePic;
     }
 

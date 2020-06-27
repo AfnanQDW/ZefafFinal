@@ -48,8 +48,9 @@ public class BookmarksActivity extends AppCompatActivity {
     }
 
     public void removeItem(int position) {
-        mExampleList.remove(position);
-        mAdapter.notifyItemRemoved(position);
+//        mExampleList.remove(position);
+//        myRef.child("Bookmark").child("").removeValue();
+//        mAdapter.notifyItemRemoved(position);
     }
 
 
@@ -64,7 +65,7 @@ public class BookmarksActivity extends AppCompatActivity {
 
                 Bookmark bkm = dataSnapshot.getValue(Bookmark.class);
                 mExampleList.add(bkm);
-
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
