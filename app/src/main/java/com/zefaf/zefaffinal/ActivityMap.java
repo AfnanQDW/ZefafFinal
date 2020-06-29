@@ -1,15 +1,11 @@
 package com.zefaf.zefaffinal;
 
-import android.app.UiAutomation;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,9 +19,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.zefaf.zefaffinal.Adapter.HajzAdapter;
+import com.zefaf.zefaffinal.Model.Bookmark;
 import com.zefaf.zefaffinal.Model.Hajz;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,8 +38,6 @@ public class ActivityMap extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("ZEFAF");
-
-    FirebaseAuth firebaseAuth;
 
     private ImageView mImgNotifications;
     private ImageView mImgMenu;
@@ -136,12 +132,23 @@ public class ActivityMap extends AppCompatActivity {
                 startActivity(detailIntent);
             }
 
-            @Override
-            public void onBookmarkClick(int position) {
-                Hajz h = mUploads.get(position);
-                myRef.child("Bookmark").push().setValue(h);
-                Toast.makeText(ActivityMap.this, "تمت اضافة الصالة للمفضلة" , Toast.LENGTH_SHORT).show();
-                }
+//            @Override
+//            public void onBookmarkClick(int position) {
+//                Hajz h = mUploads.get(position);
+//
+//                Bookmark bk = new Bookmark();
+//                bk.setVenueName(h.getName());
+//                bk.setVenueAddress(h.getAdress());
+//                bk.setVenuePic(h.getLink());
+//                bk.setVenueRating("4");
+//                bk.setUid(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
+//
+//                myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmark").push().setValue(bk);
+//
+////                myRef.child("Bookmark").push().setValue(bk);
+//                Toast.makeText(ActivityMap.this, "تمت اضافة الصالة للمفضلة", Toast.LENGTH_SHORT).show();
+//
+//            }
         });
     }
 
@@ -151,7 +158,7 @@ public class ActivityMap extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                Log.i("aa",dataSnapshot.toString());
+                Log.i("aa", dataSnapshot.toString());
 
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
 

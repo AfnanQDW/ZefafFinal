@@ -24,8 +24,6 @@ public class ProfileInfo extends AppCompatActivity {
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
 
-    Uri uri;
-
     private CircleImageView mProfileImage;
     private TextView mTxtUserName;
     private TextView mTxtUserEmail;
@@ -42,14 +40,6 @@ public class ProfileInfo extends AppCompatActivity {
         mTxtUserEmail = findViewById(R.id.txtUserEmail);
         mLv = findViewById(R.id.lv);
         txtEditProfileInfo = findViewById(R.id.txtEditProfileInfo);
-
-//        if (auth.getCurrentUser() != null) {
-//            mTxtUserName.setText(auth.getCurrentUser().getDisplayName());
-//            mTxtUserEmail.setText(auth.getCurrentUser().getEmail());
-//            if (auth.getCurrentUser().getPhotoUrl() != null) {
-//                Picasso.get().load(auth.getCurrentUser().getPhotoUrl().toString()).into(mProfileImage);
-//            }
-//        }
 
         txtEditProfileInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +82,11 @@ public class ProfileInfo extends AppCompatActivity {
                     //logout
                     FirebaseAuth.getInstance().signOut();
                     finish();
-                    startActivity(new Intent(ProfileInfo.this, SignInActivity.class));
+                    Intent intent = new Intent(ProfileInfo.this, SignInActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                    startActivity(intent);
+
                 }
             }
         });
@@ -113,4 +107,5 @@ public class ProfileInfo extends AppCompatActivity {
             }
         }
     }
+
 }

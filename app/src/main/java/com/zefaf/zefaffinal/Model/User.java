@@ -1,6 +1,8 @@
 package com.zefaf.zefaffinal.Model;
 
 public class User {
+
+    private String uid;
     private String name;
     private String email;
     private String phoneNumber;
@@ -9,11 +11,12 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String phoneNumber, String profilePic) {
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.profilePic = profilePic;
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {

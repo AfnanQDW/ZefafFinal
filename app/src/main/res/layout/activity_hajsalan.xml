@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="10dp"
+    android:layout_margin="@dimen/_10sdp"
     android:layoutDirection="ltr"
     tools:context=".HajsALan">
 
@@ -22,13 +22,13 @@
 
         <ImageView
             android:id="@+id/imgBookmark"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="20dp"
-            android:background="@color/accent"
-            app:srcCompat="@drawable/save" />
+            android:layout_marginStart="-2dp"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/ic_bookmark_border" />
 
     </RelativeLayout>
 
@@ -47,10 +47,10 @@
             android:text="قاعة الحلو"
             android:layout_weight="2"
             android:layout_gravity="end"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
             android:textColor="#000000"
-            android:textSize="24sp"
+            android:textSize="@dimen/_24ssp"
             android:textStyle="bold" />
 
         <TextView
@@ -59,11 +59,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_28sdp"
             android:text="1500"
             android:textColor="#f52d56"
-            android:textSize="18sp" />
+            android:textSize="@dimen/_18ssp" />
     </RelativeLayout>
 
 
@@ -79,16 +79,16 @@
                 android:text="(عرض 173)" />
             <ImageView
                 android:id="@+id/imageView9"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 app:srcCompat="@drawable/sstar" />
             <TextView
                 android:id="@+id/txtVenueRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4.3"
-                android:layout_marginEnd="10dp"
-                android:textSize="15sp" />
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:textSize="@dimen/_15ssp" />
 
     </LinearLayout>
 
@@ -97,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
        android:layout_gravity="end"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="@dimen/_10sdp"
         android:text="فلسطين-قطاع غزة-خانيونس" />
 
     <TextView
@@ -105,17 +105,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:textStyle="bold"
         android:text="التفاصيل"
-        android:textSize="18sp" />
+        android:textSize="@dimen/_18ssp" />
 
     <TextView
         android:id="@+id/txtVenueDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:padding="@dimen/_5sdp"
         android:textColor="#000"
         android:layout_gravity="end"
         android:text="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution" />
@@ -125,13 +125,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-       android:layout_margin="10dp"
-        android:layout_marginTop="20dp"
+       android:layout_margin="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/shape"
         android:backgroundTint="#f52d56"
         android:text="احجز الان"
         android:textColor="#fff"
-        android:textSize="20sp"
+        android:textSize="@dimen/_20ssp"
         android:textStyle="bold" />
 
 

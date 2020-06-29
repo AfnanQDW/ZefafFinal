@@ -8,19 +8,19 @@
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="99dp"
-        android:layout_height="91dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="@dimen/_99sdp"
+        android:layout_height="@dimen/_91sdp"
+        android:layout_marginTop="@dimen/_28sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon" />
 
     <TextView
         android:id="@+id/textsuccss"
-        android:layout_width="171dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="43dp"
-        android:layout_marginBottom="43dp"
+        android:layout_width="@dimen/_171sdp"
+        android:layout_height="@dimen/_33sdp"
+        android:layout_marginTop="@dimen/_43sdp"
+        android:layout_marginBottom="@dimen/_43sdp"
         android:text="لقد تمت عملية الحجز بنجاح وستصلك رسائل بتذكيرك الموعد "
         app:layout_constraintBottom_toBottomOf="@+id/img"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +32,8 @@
         android:id="@+id/textime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="57dp"
+        android:layout_marginStart="@dimen/_28sdp"
+        android:layout_marginTop="@dimen/_57sdp"
         android:text="ص 3:55"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

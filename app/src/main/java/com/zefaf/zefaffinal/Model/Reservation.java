@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class Reservation {
 
+    private String uid;
     private String venueName;
     private String userName;
     private String venueAddress;
@@ -16,7 +17,6 @@ public class Reservation {
 
     public Reservation() {
     }
-
 
     @Exclude
     public Map<String, Object> toMap() {
@@ -28,6 +28,14 @@ public class Reservation {
         result.put("reservationStatus", reservationStatus);
 
         return result;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getVenueName() {

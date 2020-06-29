@@ -9,9 +9,9 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="@dimen/_96sdp"
+        android:layout_height="@dimen/_96sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/ic_camera_alt"
@@ -24,11 +24,11 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/profile_image"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="@dimen/_110sdp"
         android:text="@string/edit_profile_info"
         android:textColor="#3D1458"
         android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:textSize="@dimen/_20ssp"/>
 
 
     <EditText
@@ -37,14 +37,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="184dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_184sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
         android:background="@drawable/selector_edittext"
         android:drawableStart="@drawable/ic_person"
         android:hint="@string/full_name"
         android:inputType="textPersonName"
-        android:padding="10dp"
+        android:padding="@dimen/_10sdp"
         android:textDirection="rtl" />
 
     <EditText
@@ -53,15 +53,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="243dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_243sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
         android:background="@drawable/selector_edittext"
         android:drawableStart="@drawable/ic_phone"
         android:gravity="end"
         android:hint="@string/mobile_number"
         android:inputType="phone"
-        android:padding="10dp" />
+        android:padding="@dimen/_10sdp" />
 
     <EditText
         android:id="@+id/editemail"
@@ -70,12 +70,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="305dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginTop="@dimen/_305sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_15sdp"
         android:background="@drawable/selector_edittext"
         android:inputType="textEmailAddress"
-        android:padding="10dp"
+        android:padding="@dimen/_10sdp"
         android:drawableStart="@drawable/ic_email_register"
         android:hint="@string/email_address" />
 
@@ -87,13 +87,13 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginStart="@dimen/_18sdp"
+        android:layout_marginEnd="@dimen/_18sdp"
+        android:layout_marginBottom="@dimen/_55sdp"
         android:background="@drawable/shape"
         android:text="@string/edit_btn"
         android:textColor="#fff"
-        android:textSize="20sp"
+        android:textSize="@dimen/_20ssp"
         android:textStyle="bold" />
 
     <ProgressBar

@@ -1,125 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     tools:context=".SignInActivity">
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <Button
+        android:id="@+id/buttonlogin"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/logo2"
-        tools:layout_editor_absoluteY="38dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="110dp"
-        android:text="تسجيل الدخول الى حسابك"
-        android:textColor="#3D1458"
+        android:layout_marginStart="@dimen/_18sdp"
+        android:layout_marginEnd="@dimen/_18sdp"
+        android:layout_marginBottom="@dimen/_145sdp"
+        android:background="@drawable/shape"
+        android:text="تسجيل دخول"
+        android:textColor="#fff"
+        android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
-        android:textSize="20sp"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/editTextpass"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="49dp"
-        android:text="ليس لديك حساب؟"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textnewaccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="150dp"
-        android:text="إنشاء حساب"
-        android:textColor="#F52D56"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_270sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:background="@drawable/selector_edittext"
+        android:drawableStart="@drawable/ic_showpass"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:padding="@dimen/_10sdp"
+        android:textDirection="rtl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:inputType="textEmailAddress"
-        android:textDirection="rtl"
-        android:padding="10dp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_200sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:background="@drawable/selector_edittext"
         android:drawableStart="@drawable/ic_phone"
-        android:background="@drawable/selector_edittext"
-        android:hint="@string/email_address" />
-
-
-    <EditText
-        android:id="@+id/editTextpass"
+        android:hint="@string/email_address"
+        android:inputType="textEmailAddress"
+        android:padding="@dimen/_10sdp"
         android:textDirection="rtl"
-        android:gravity="end"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="270dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:background="@drawable/selector_edittext"
-        android:inputType="textPassword"
-        android:padding="10dp"
-        android:drawableStart="@drawable/ic_showpass"
-        android:hint="@string/password" />
-
-    <Button
-        android:id="@+id/buttonlogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="145dp"
-        android:background="@drawable/shape"
-        android:text="تسجيل دخول"
-        android:textColor="#fff"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvforgetpass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
-        android:text="هل نسيت كلمة المرور؟"
-        android:textSize="20sp"
-        android:textColor="#F52D56"/>
-
+        android:layout_height="@dimen/_120sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo2" />
 
     <ProgressBar
         android:id="@+id/progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone" />
-</RelativeLayout>
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="@dimen/_204sdp"
+        android:text="ليس لديك حساب؟"
+        android:textSize="@dimen/_15ssp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textnewaccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_220sdp"
+        android:text="إنشاء حساب"
+        android:textColor="#F52D56"
+        android:textSize="@dimen/_18ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvforgetpass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_100sdp"
+        android:text="هل نسيت كلمة المرور؟"
+        android:textColor="#F52D56"
+        android:textSize="@dimen/_20ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_110sdp"
+        android:text="تسجيل الدخول الى حسابك"
+        android:textColor="#3D1458"
+        android:textSize="@dimen/_20ssp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

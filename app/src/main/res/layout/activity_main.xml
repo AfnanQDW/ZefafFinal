@@ -11,14 +11,14 @@
         android:id="@+id/profileInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="@dimen/_20sdp"
         android:fontFamily="Cairo"
         android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp"
+        android:paddingStart="@dimen/_20sdp"
+        android:paddingTop="@dimen/_30sdp"
+        android:paddingBottom="@dimen/_30sdp"
         android:textColor="#000"
-        android:textSize="18dp"
+        android:textSize="@dimen/_18sdp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -28,8 +28,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="@dimen/_96sdp"
+            android:layout_height="@dimen/_96sdp"
             android:src="@drawable/ic_camera_alt"
             app:civ_border_color="#00000000"
             app:civ_border_width="0dp" />
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="@dimen/_20sdp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -50,7 +50,7 @@
                 android:fontFamily="Cairo"
                 android:text="username"
                 android:textColor="#000"
-                android:textSize="16dp"
+                android:textSize="@dimen/_16sdp"
                 android:textStyle="normal" />
 
             <TextView
@@ -60,7 +60,7 @@
                 android:fontFamily="Montserrat"
                 android:text="xxx.xx@xxx.com"
                 android:textColor="#000"
-                android:textSize="12dp"
+                android:textSize="@dimen/_12sdp"
                 android:textStyle="normal" />
         </LinearLayout>
 
@@ -76,10 +76,10 @@
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:divider="@android:color/transparent"
-        android:dividerHeight="5dp"
-        android:padding="20dp"
+        android:dividerHeight="@dimen/_5sdp"
+        android:padding="@dimen/_20sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileInfo" />

@@ -23,12 +23,11 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
     ArrayList<Hajz> hajzs;
     OnHajzClickListener listener;
     private Context mContext;
+    String location;
 
 
     public interface OnHajzClickListener {
         void onHajzItemClick(int position);
-
-        void onBookmarkClick(int position);
 
     }
 
@@ -63,6 +62,8 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
 
         holder.txtVenueName.setText(hajz.getName());
         holder.txtVenueAddress.setText(hajz.getAdress());
+        holder.intent.putExtra("longitude", hajz.getLng());
+        holder.intent.putExtra("latitude", hajz.getLat());
         Picasso.get().load(hajz.getLink()).into(holder.imgVenueImage);
         holder.rating.setRating(4);
     }
@@ -72,6 +73,7 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
         return hajzs.size();
     }
 
+
     class Hajzviewholder extends RecyclerView.ViewHolder {
 
         private ImageView imgVenueImage;
@@ -79,6 +81,25 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
         private RatingBar rating;
         private TextView txtVenueAddress;
         private ImageView mBookmarkImage;
+        private ImageView imageView8;
+        private ImageView imageView13;
+        Intent intent;
+
+        public void goToMap() {
+            if (intent.getStringExtra("longitude") != null && intent.getStringExtra("latitude") != null) {
+                location = intent.getStringExtra("longitude") + "," + intent.getStringExtra("latitude");
+
+                intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("geo:" + location + "?q=" + location + "(Label+Name)"));
+
+                mContext.startActivity(intent);
+            } else {
+//                Toast.makeText(mContext, "موقع الصالة غير متوفر", Toast.LENGTH_SHORT).show();
+                intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("geo:31.5247923,34.4432588"));
+                mContext.startActivity(intent);
+            }
+        }
 
         public Hajzviewholder(@NonNull View itemView) {
             super(itemView);
@@ -88,6 +109,11 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
             rating = itemView.findViewById(R.id.rating);
             txtVenueAddress = itemView.findViewById(R.id.txtVenueAddress);
             mBookmarkImage = itemView.findViewById(R.id.imageView13);
+            imageView8 = itemView.findViewById(R.id.imageView8);
+
+            intent = new Intent();
+
+            mBookmarkImage.setVisibility(View.GONE);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,13 +135,28 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
                             mContext.startActivity(intent);
                         }
                     });
-                    mBookmarkImage.setOnClickListener(new View.OnClickListener() {
+                    txtVenueAddress.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             if (listener != null) {
                                 int position = getAdapterPosition();
                                 if (position != RecyclerView.NO_POSITION) {
-                                    listener.onBookmarkClick(position);
+
+                                    goToMap();
+
+                                }
+                            }
+                        }
+                    });
+                    imageView8.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (listener != null) {
+                                int position = getAdapterPosition();
+                                if (position != RecyclerView.NO_POSITION) {
+
+                                    goToMap();
+
                                 }
                             }
                         }

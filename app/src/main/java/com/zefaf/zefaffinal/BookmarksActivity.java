@@ -1,23 +1,33 @@
 package com.zefaf.zefaffinal;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.zefaf.zefaffinal.Adapter.BookmarksAdapter;
 import com.zefaf.zefaffinal.Model.Bookmark;
+import com.zefaf.zefaffinal.Model.Hajz;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,14 +41,24 @@ public class BookmarksActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private ProgressBar progressCircle;
 
+    String key;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("ZEFAF");
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
+
+        setTitle(R.string.bookmarks);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        myToolbar.setTitleTextColor(getColor(R.color.white));
+        myToolbar.setBackgroundColor(getColor(R.color.accent));
 
         progressCircle = findViewById(R.id.progress_circle);
 
@@ -48,50 +68,40 @@ public class BookmarksActivity extends AppCompatActivity {
     }
 
     public void removeItem(int position) {
-//        mExampleList.remove(position);
-//        myRef.child("Bookmark").child("").removeValue();
-//        mAdapter.notifyItemRemoved(position);
+        mExampleList.remove(position);
+        myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmarks").child(key).removeValue();
+        mAdapter.notifyItemRemoved(position);
     }
 
 
     public void createExampleList() {
 
         progressCircle.setVisibility(View.VISIBLE);
-
-        myRef.child("Bookmark").addChildEventListener(new ChildEventListener() {
+//        myRef.child("Bookmarks");
+        myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmarks")
+                .addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 progressCircle.setVisibility(View.INVISIBLE);
 
-                Bookmark bkm = dataSnapshot.getValue(Bookmark.class);
-                mExampleList.add(bkm);
-                mAdapter.notifyDataSetChanged();
+                for (DataSnapshot snap : snapshot.getChildren()) {
+
+                    key = snap.getKey();
+
+                    Bookmark bkm = snap.getValue(Bookmark.class);
+                    mExampleList.add(bkm);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
 
 
     }
-
 
     public void buildRecyclerView() {
         mBookmarksRecyclerView = findViewById(R.id.bookmarksRecyclerView);

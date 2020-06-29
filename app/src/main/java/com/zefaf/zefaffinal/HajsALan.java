@@ -10,11 +10,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 import com.squareup.picasso.Picasso;
+import com.zefaf.zefaffinal.Model.Bookmark;
 import com.zefaf.zefaffinal.Model.Reservation;
 
 import java.text.SimpleDateFormat;
@@ -47,11 +53,14 @@ public class HajsALan extends AppCompatActivity {
 
     private String orderDate;
     private TextView txtVenuePrice;
+    View parentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hajsalan);
+
+        parentLayout = findViewById(android.R.id.content);
 
         Intent intent = getIntent();
         String texnmae = intent.getStringExtra(Name);
@@ -59,39 +68,94 @@ public class HajsALan extends AppCompatActivity {
         String texadress = intent.getStringExtra(Address);
         String texdese = intent.getStringExtra(Desc);
 
-        String img = intent.getStringExtra(IMG);
-
-
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("ZEFAF");
-
-        auth = FirebaseAuth.getInstance();
+        final String img = intent.getStringExtra(IMG);
 
         imgVenueImage = findViewById(R.id.imgVenueImage);
         Picasso.get().load(img).into(imgVenueImage);
-        imgBookmark = findViewById(R.id.imgBookmark);
-        txtVenueRating = findViewById(R.id.txtVenueRating);
+
         txtVenueAddress = findViewById(R.id.txtVenueAddress);
         txtVenueAddress.setText(texadress);
+
         txtVenueDescription = findViewById(R.id.txtVenueDescription);
         txtVenueDescription.setText(texdese);
+
         txtVenueName = findViewById(R.id.txtVenueName);
         txtVenueName.setText(texnmae);
+
         txtVenuePrice = findViewById(R.id.txtVenuePrice);
         txtVenuePrice.setText(texprice);
-        btnBook = findViewById(R.id.btnBook);
 
+        btnBook = findViewById(R.id.btnBook);
+        txtVenueRating = findViewById(R.id.txtVenueRating);
+
+        imgBookmark = findViewById(R.id.imgBookmark);
         imgBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (imgBookmark.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.ic_bookmark_border).getConstantState()) {
+                    Bookmark bkm = new Bookmark();
 
+                    bkm.setUid(auth.getCurrentUser().getUid());
+                    bkm.setVenueRating(txtVenueRating.getText().toString());
+                    bkm.setVenuePic(img);
+                    bkm.setVenueAddress(txtVenueAddress.getText().toString());
+                    bkm.setVenueName(txtVenueName.getText().toString());
+
+//                    myRef.child("Bookmark").push().setValue(bkm);
+                    myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmarks").push().setValue(bkm).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Snackbar.make(parentLayout, "تمت الاضافة للمفضلة", BaseTransientBottomBar.LENGTH_LONG).setAction("الذهاب ggltqgm", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(HajsALan.this, BookmarksActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }).show();
+                            } else
+                                Toast.makeText(HajsALan.this, "fail", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    });
+
+                    imgBookmark.setImageResource(R.drawable.ic_bookmark_filled);
+                } else {
+
+                    myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmarks").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot snap : snapshot.getChildren()) {
+
+                                String key = snap.getKey();
+
+                                if (key != null) {
+                                    myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmarks").child(key).removeValue();
+                                    imgBookmark.setImageResource(R.drawable.ic_bookmark_border);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
             }
         });
 
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pickDate();
+                Intent intent;
+                if (auth.getCurrentUser() != null) {
+                    pickDate();
+                } else {
+                    intent = new Intent(HajsALan.this, SignInActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -108,7 +172,6 @@ public class HajsALan extends AppCompatActivity {
         dateTimeDialogFragment.startAtCalendarView();
         dateTimeDialogFragment.setMinimumDateTime(Calendar.getInstance().getTime());
         dateTimeDialogFragment.setDefaultDateTime(Calendar.getInstance().getTime());
-
 
         // Set listener
         dateTimeDialogFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
@@ -130,7 +193,7 @@ public class HajsALan extends AppCompatActivity {
 
     }
 
-    public void sendOrder(){
+    public void sendOrder() {
 
         Reservation r = new Reservation();
         if (auth.getCurrentUser() != null) {
@@ -145,9 +208,15 @@ public class HajsALan extends AppCompatActivity {
         myRef.child("Reservations").push().setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    Toast.makeText(HajsALan.this, "success", Toast.LENGTH_SHORT).show();
-                }else
+                if (task.isSuccessful()) {
+                    Snackbar.make(parentLayout, "تمت اضافة الطلب", BaseTransientBottomBar.LENGTH_LONG).setAction("الذهاب للحجوزات", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(HajsALan.this, Reservations.class);
+                            startActivity(intent);
+                        }
+                    }).show();
+                } else
                     Toast.makeText(HajsALan.this, "fail", Toast.LENGTH_SHORT).show();
             }
 

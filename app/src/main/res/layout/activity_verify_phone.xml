@@ -10,12 +10,12 @@
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/_200sdp"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:background="@drawable/logo" />
@@ -25,7 +25,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="@dimen/_120sdp"
 
         />
 
@@ -35,14 +35,14 @@
         android:layout_height="match_parent"
         android:layout_below="@id/imageView"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="@dimen/_20sdp">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="@dimen/_25sdp"
             android:text="Wait for the code I sent You"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
             android:textColor="#F52D56" />
@@ -56,14 +56,14 @@
 
         <EditText
             android:id="@+id/editTextCode"
-            android:layout_width="200dp"
+            android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
             android:layout_below="@id/progressbar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:digits="0123456789"
             android:layoutDirection="ltr"
-            android:drawablePadding="10dp"
+            android:drawablePadding="@dimen/_10sdp"
             android:hint="enter verification code"
             android:inputType="phone"
             android:maxLength="10" />
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/editTextCode"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:background="#F52D56"
             android:text="Sign In"
             android:textAllCaps="false"

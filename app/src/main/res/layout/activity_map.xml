@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="167dp"
+        android:layout_height="146dp"
         android:background="@drawable/shape" />
 
     <ImageView
@@ -18,9 +18,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/imgMenu"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
         android:layout_alignBottom="@id/imgMenu"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/_20sdp"
         app:srcCompat="@drawable/ic_notify" />
 
     <ImageView
@@ -29,8 +30,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="47dp"
+        android:layout_marginTop="@dimen/_10sdp"
+
+        android:layout_marginStart="@dimen/_14sdp"
         android:src="@drawable/ic_btn_photo" />
 
     <EditText
@@ -39,24 +41,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
         android:background="@drawable/shape22"
         android:drawableEnd="@drawable/search"
         android:ems="10"
         android:lines="1"
         android:hint="   بحث عن اسم قاعة او المكان"
-        android:padding="13dp" />
+        android:padding="@dimen/_13sdp" />
 
     <ProgressBar
         android:id="@+id/progress_circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginEnd="168dp"
+        android:layout_marginEnd="@dimen/_168sdp"
         android:visibility="gone"
-        android:layout_marginBottom="151dp" />
+        android:layout_marginBottom="@dimen/_151sdp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/res"

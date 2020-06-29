@@ -12,7 +12,7 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyFragmentItemRecyclerViewAdapter extends RecyclerView.Adapter<MyFragmentItemRecyclerViewAdapter.ViewHolder> {
+public class ReservationFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ReservationFragmentRecyclerViewAdapter.ViewHolder> {
 
     private final List<Reservation> mValues;
 
@@ -22,7 +22,7 @@ public class MyFragmentItemRecyclerViewAdapter extends RecyclerView.Adapter<MyFr
 
     private final ItemFragment.OnListFragmentInteractionListener mListener;
 
-    public MyFragmentItemRecyclerViewAdapter(List<Reservation> items
+    public ReservationFragmentRecyclerViewAdapter(List<Reservation> items
             , ItemFragment.OnListFragmentInteractionListener listener
     ) {
         mValues = items;

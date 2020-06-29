@@ -10,11 +10,11 @@
     <ImageView
         android:id="@+id/imageViewlogo"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="@dimen/_120sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/logo2"
-        tools:layout_editor_absoluteY="38dp" />
+        tools:layout_editor_absoluteY="38sdp" />
 
     <TextView
         android:id="@+id/textView"
@@ -22,11 +22,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="@dimen/_110sdp"
         android:text="@string/create_new_account"
         android:textColor="#3D1458"
         android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:textSize="@dimen/_20ssp"/>
 
 
 
@@ -36,12 +36,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="170dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginTop="@dimen/_170sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_15sdp"
         android:inputType="textPersonName"
         android:textDirection="rtl"
-        android:padding="10dp"
+        android:padding="@dimen/_10sdp"
         android:drawableStart="@drawable/ic_person"
         android:background="@drawable/selector_edittext"
         android:hint="@string/full_name" />
@@ -53,14 +53,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="233dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="@dimen/_17sdp"
+        android:layout_marginTop="@dimen/_233sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
         android:background="@drawable/selector_edittext"
         android:drawableStart="@drawable/ic_email_register"
         android:hint="@string/email_address"
         android:inputType="textEmailAddress"
-        android:padding="10dp"
+        android:padding="@dimen/_10sdp"
         android:textDirection="rtl" />
 
     <EditText
@@ -69,15 +69,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="292dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_292sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
         android:background="@drawable/selector_edittext"
         android:drawableStart="@drawable/ic_showpass"
-        android:gravity="end"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:padding="10dp"
+        android:padding="@dimen/_10sdp"
         android:textDirection="rtl" />
 
     <Button
@@ -87,13 +86,13 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginStart="@dimen/_18sdp"
+        android:layout_marginEnd="@dimen/_18sdp"
+        android:layout_marginBottom="@dimen/_55sdp"
         android:background="@drawable/shape"
         android:text="@string/sign_in_txt"
         android:textColor="#fff"
-        android:textSize="20sp"
+        android:textSize="@dimen/_20ssp"
         android:textStyle="bold" />
 
     <ProgressBar

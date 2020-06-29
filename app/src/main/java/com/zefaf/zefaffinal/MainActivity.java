@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("ZEFAF");
 
-        auth = FirebaseAuth.getInstance();
-
         lv = findViewById(R.id.lv);
 
         profileImage = findViewById(R.id.profile_image);
@@ -64,8 +62,15 @@ public class MainActivity extends AppCompatActivity {
         profileInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ProfileInfo.class);
-                startActivity(intent);
+                if (auth.getCurrentUser() != null) {
+
+                    Intent intent = new Intent(MainActivity.this, ProfileInfo.class);
+                    startActivity(intent);
+
+                }else{
+                    Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -96,8 +101,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent;
                 switch (i) {
                     case 0:
-                        intent = new Intent(MainActivity.this, BookmarksActivity.class);
-                        startActivity(intent);
+                        if (auth.getCurrentUser() != null) {
+                            intent = new Intent(MainActivity.this, BookmarksActivity.class);
+                            startActivity(intent);
+                        }else{
+                            intent = new Intent(MainActivity.this, SignInActivity.class);
+                            startActivity(intent);
+                        }
                         break;
                     case 1:
                         intent = new Intent(MainActivity.this, Reservations.class);

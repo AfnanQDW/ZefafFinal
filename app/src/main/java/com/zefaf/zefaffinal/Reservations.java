@@ -37,8 +37,8 @@ public class Reservations extends AppCompatActivity implements ItemFragment.OnLi
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mToolbar.setTitle(getString(R.string.app_name));
-        mToolbar.setTitleTextColor(getColor(R.color.accent));
-        mToolbar.setBackgroundColor(getColor(R.color.white));
+        mToolbar.setTitleTextColor(getColor(R.color.white));
+        mToolbar.setBackgroundColor(getColor(R.color.accent));
 
         setupTabs();
     }

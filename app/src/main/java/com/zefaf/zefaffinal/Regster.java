@@ -28,7 +28,6 @@ public class Regster extends AppCompatActivity {
 
     ProgressBar progressBar;
     private EditText editname;
-    private EditText editphone;
     private EditText editemail;
     private EditText editpassword;
     private Button buttonlogin;
@@ -37,8 +36,8 @@ public class Regster extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("ZEFAF");
+    FirebaseUser user;
 
-    String mobile;
     String name;
     String email;
     String password;
@@ -50,7 +49,6 @@ public class Regster extends AppCompatActivity {
         setContentView(R.layout.activity_regster);
 
         editname = findViewById(R.id.editname);
-//        editphone = findViewById(R.id.editphone);
         editemail = findViewById(R.id.editemail);
         editpassword = findViewById(R.id.editpassword);
         buttonlogin = findViewById(R.id.buttonlogin);
@@ -62,46 +60,12 @@ public class Regster extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 registerUser();
-
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                if (user != null) {
-
-                    user.updateEmail(email);
-
-                    UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
-                            .setDisplayName(name)
-                            .build();
-
-                    user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()){
-                                Toast.makeText(Regster.this, "Profile updated", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-                    User u = new User();
-                    u.setName(user.getDisplayName());
-                    u.setEmail(user.getEmail());
-
-                    myRef.child("Users").child(user.getUid()).setValue(u).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(Regster.this, "user added", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-
             }
         });
     }
 
     private void registerUser() {
         name = editname.getText().toString().trim();
-//        String phone = editphone.getText().toString().trim();
         email = editemail.getText().toString().trim();
         password = editpassword.getText().toString().trim();
 
@@ -135,19 +99,6 @@ public class Regster extends AppCompatActivity {
             editname.requestFocus();
             return;
         }
-//
-//        if (phone.isEmpty()) {
-//            editphone.setError("Phone is required");
-//            editphone.requestFocus();
-//            return;
-//        } else
-//            mobile = phone;
-//        if (editphone.length() < 10) {
-//            editphone.setError("Enter a valid mobile");
-//            editphone.requestFocus();
-//            return;
-//        }
-
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -156,27 +107,53 @@ public class Regster extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
+                        user = firebaseAuth.getCurrentUser();
+
                         if (task.isSuccessful()) {
                             finish();
                             Intent intent = new Intent(Regster.this, ActivityMap.class);
-//                            intent.putExtra("mobile", mobile);
-                            startActivity(intent);
-                        } else {
 
+                            startActivity(intent);
+
+                            if (user != null) {
+
+                                user.updateEmail(email);
+
+                                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(name)
+                                        .build();
+
+                                user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(Regster.this, "Profile updated", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+                                User u = new User();
+                                u.setName(user.getDisplayName());
+                                u.setEmail(user.getEmail());
+
+                                myRef.child("Users").child(user.getUid()).setValue(u).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(Regster.this, "user added", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
+
+                        } else {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
-
                             } else {
                                 Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
-
                         }
                     }
                 });
-
-
     }
-
-
 }
 

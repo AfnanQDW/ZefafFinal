@@ -20,7 +20,6 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.Book
     ArrayList<Bookmark> bookmarks;
     OnItemClickListener listener;
 
-
     public interface OnItemClickListener {
         void OnItemClick(int position);
 
@@ -65,6 +64,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.Book
         private TextView mTxtVenueName;
         private RatingBar rating;
         private TextView mTxtVenueAddress;
+        private ImageView imageView8;
 
         public BookmarkViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -74,6 +74,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.Book
             rating = itemView.findViewById(R.id.rating);
             mTxtVenueAddress = itemView.findViewById(R.id.txtVenueAddress);
             mBookmarkImage = itemView.findViewById(R.id.imageView13);
+            imageView8 = itemView.findViewById(R.id.imageView8);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -93,6 +94,19 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.Book
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onBookmarkClick(position);
+
+                        }
+                    }
+                }
+            });
+            imageView8.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onBookmarkClick(position);
+
                         }
                     }
                 }

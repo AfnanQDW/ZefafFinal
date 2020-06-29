@@ -76,7 +76,7 @@ public class ItemFragment extends Fragment {
                 Log.i("reservation", dataSnapshot.toString());
                 reservations.add(reservation);
 
-                MyFragmentItemRecyclerViewAdapter adapt = new MyFragmentItemRecyclerViewAdapter(reservations, new OnListFragmentInteractionListener() {
+                ReservationFragmentRecyclerViewAdapter adapt = new ReservationFragmentRecyclerViewAdapter(reservations, new OnListFragmentInteractionListener() {
                     @Override
                     public void onListFragmentInteraction(int position) {
                         Toast.makeText(getActivity(), reservations.get(position).getVenueName(), Toast.LENGTH_SHORT).show();

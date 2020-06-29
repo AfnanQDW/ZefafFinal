@@ -3,6 +3,7 @@ package com.zefaf.zefaffinal;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,13 +17,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.zefaf.zefaffinal.Model.User;
+
+import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,8 +45,8 @@ public class EditProfileInfo extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("ZEFAF");
-
-    Uri uri;
+    User u;
+    Uri myUri;
 
     private CircleImageView profileImage;
     private EditText editname;
@@ -92,7 +99,6 @@ public class EditProfileInfo extends AppCompatActivity {
 
 
     public void fillInfo() {
-
         if (user != null) {
             editname.setText(user.getDisplayName());
             editemail.setText(user.getEmail());
@@ -101,15 +107,15 @@ public class EditProfileInfo extends AppCompatActivity {
                 Picasso.get().load(user.getPhotoUrl()).into(profileImage);
             }
         }
-
     }
 
+
     public void updateInfo() {
+
         if (user != null) {
 
             UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
                     .setDisplayName(editname.getText().toString().trim())
-//                    .setPhotoUri(Uri.parse(profilePicUrl))
                     .build();
 
             user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -140,27 +146,32 @@ public class EditProfileInfo extends AppCompatActivity {
         }
     }
 
-
-    public void uploadProfilePic(Uri uri) {
-
+    public void uploadProfilePic() {
+        progressbar.setVisibility(View.VISIBLE);
         reference = FirebaseStorage.getInstance().getReference("userProfilePictures/" + user.getUid() + ".jpg");
 
-        if (uri != null) {
-            reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    profilePicUrl = taskSnapshot.getStorage().getDownloadUrl().toString();
+        reference.putFile(myUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+                    reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            HashMap<String, Object> map = new HashMap<>();
+                            map.put("ProfilePicUri", uri.toString());
+                            myRef.child("Users").child(user.getUid()).updateChildren(map);
+                            profileImage.setImageURI(myUri);
 
+                            profilePicUrl = uri.toString();
+                            setProfilePic(uri);
+                            Log.i("AFQ", "profilePicUrl  " + user.getPhotoUrl());
+
+                            progressbar.setVisibility(View.INVISIBLE);
+                        }
+                    });
                 }
-
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(EditProfileInfo.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
+            }
+        });
     }
 
     @Override
@@ -169,11 +180,17 @@ public class EditProfileInfo extends AppCompatActivity {
 
         if (requestCode == 0 && resultCode == RESULT_OK && intent != null && intent.getData() != null) {
 
-            uri = intent.getData();
+            myUri = intent.getData();
+            profileImage.setImageURI(myUri);
 
-            profileImage.setImageURI(uri);
-            uploadProfilePic(uri);
-
+            uploadProfilePic();
         }
+    }
+
+    public void setProfilePic(Uri uri) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setPhotoUri(uri)
+                .build();
+        user.updateProfile(profileUpdates);
     }
 }

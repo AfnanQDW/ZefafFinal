@@ -7,6 +7,9 @@ import java.util.Map;
 
 public class Bookmark {
 
+    private String uid;
+    @Exclude
+    private String venueId;
     private String venuePic;
     private String venueName;
     private String venueAddress;
@@ -14,14 +17,6 @@ public class Bookmark {
 
     public Bookmark() {
     }
-
-    public Bookmark(String venuePic, String venueName, String venueAddress, String venueRating) {
-        this.venuePic = venuePic;
-        this.venueName = venueName;
-        this.venueAddress = venueAddress;
-        this.venueRating = venueRating;
-    }
-
 
     @Exclude
     public Map<String, Object> toMap() {
@@ -32,6 +27,22 @@ public class Bookmark {
         result.put("venueRating", venueRating);
 
         return result;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(String venueId) {
+        this.venueId = venueId;
     }
 
     public String getVenuePic() {
