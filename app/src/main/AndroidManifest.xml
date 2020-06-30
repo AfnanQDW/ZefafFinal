@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".BookmarksActivity"/>
-        <activity android:name=".Notifications" />
         <activity android:name=".MainActivity" />
         <activity android:name=".Regster" />
         <activity android:name=".ForGetPassWord" />

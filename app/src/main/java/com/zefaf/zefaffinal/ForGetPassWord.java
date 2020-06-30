@@ -26,7 +26,6 @@ public class ForGetPassWord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_for_get_pass_word);
 
-
         setTitle(R.string.bookmarks);
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
