@@ -43,7 +43,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class Reservations extends AppCompatActivity {
 
     private MaterialToolbar mToolbar;
-    float ratingVal;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("ZEFAF");

@@ -1,6 +1,7 @@
 package com.zefaf.zefaffinal;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -112,13 +113,28 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 2:
-                        //terms of service
+                        //terms and conditions
+                        String tncUrl = "https://zefaf.flycricket.io/terms.html";
+                        intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(tncUrl));
+                        startActivity(intent);
                         break;
                     case 3:
                         //privacy_policy
+                        String policyUrl = "https://zefaf.flycricket.io/privacy.html";
+                        intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(policyUrl));
+                        startActivity(intent);
                         break;
                     case 4:
                         //help_center
+                        intent = new Intent(Intent.ACTION_SENDTO);
+                        intent.setType("*/*");
+                        intent.setData(Uri.parse("afnan.alqudwa@gmail.com"));
+                        intent.putExtra(Intent.EXTRA_EMAIL, "afnan.alqudwa@gmail.com");
+
+                        startActivity(Intent.createChooser(intent, "Send Email"));
+
                         break;
                     case 5:
                         intent = new Intent(MainActivity.this, About.class);
