@@ -1,32 +1,58 @@
 package com.zefaf.zefaffinal;
 
+import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.zefaf.zefaffinal.Adapter.FragmentAdapter;
-import com.zefaf.zefaffinal.Fragments.ItemFragment;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.zefaf.zefaffinal.Adapter.ReservationRecyclerViewAdapter;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.tabs.TabLayout;
 import com.zefaf.zefaffinal.Model.Reservation;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager2.widget.ViewPager2;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
-public class Reservations extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class Reservations extends AppCompatActivity {
 
     private MaterialToolbar mToolbar;
-    private TabLayout mTabs;
+    float ratingVal;
 
-    FragmentAdapter myAdapter;
-    ViewPager2 vp2;
-    FragmentManager fm;
-    FragmentTransaction ft;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("ZEFAF");
+
+    ArrayList<Reservation> reservations;
+    RecyclerView rv;
+    RatingBar ratingBar;
+
+    String key;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -36,49 +62,169 @@ public class Reservations extends AppCompatActivity implements ItemFragment.OnLi
 
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setTitle(getString(R.string.app_name));
+        mToolbar.setTitle(getString(R.string.reservations));
         mToolbar.setTitleTextColor(getColor(R.color.white));
         mToolbar.setBackgroundColor(getColor(R.color.accent));
 
-        setupTabs();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public void setupTabs(){
-        vp2 = findViewById(R.id.pager);
-
-        myAdapter = new FragmentAdapter(this);
-        vp2.setAdapter(myAdapter);
-
-        mTabs = findViewById(R.id.tabs);
-        TabLayoutMediator tabMed = new TabLayoutMediator(mTabs, vp2, new TabLayoutMediator.TabConfigurationStrategy() {
+        myRef.child("Reservations").child("reservationStatus").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                switch(position){
-                    case 0:
-                        tab.setText(getString(R.string.current_res));
-                        break;
-                    case 1:
-                        tab.setText(getString(R.string.previous_res));
-                        break;
-                }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Notify("تم الرد على طلبك","انقر للاطلاع على حجوزاتك","");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
-        tabMed.attach();
+        getRes();
+    }
 
-        mTabs.setTabTextColors(getColor(R.color.black), getColor(R.color.accent));
-        mTabs.setSelectedTabIndicatorColor(getColor(R.color.accent));
+    public void getRes(){
 
-        fm = getSupportFragmentManager();
-        ft = fm.beginTransaction();
+        rv = findViewById(R.id.list);
+        reservations = new ArrayList<>();
 
-        ft.commit();
+        myRef.child("Reservations").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                final Reservation reservation = dataSnapshot.getValue(Reservation.class);
+                key = dataSnapshot.getKey();
+                reservations.add(reservation);
+
+                if (!reservations.isEmpty()){
+                    ReservationRecyclerViewAdapter adapt = new ReservationRecyclerViewAdapter(reservations, new ReservationRecyclerViewAdapter.OnReservationItemClickListener() {
+                        @Override
+                        public void OnReservationItemClick(int position) {
+
+                            String resDate = reservation.getReservationDate();
+                            Date dd = new Date();
+                            try {
+                                dd = new SimpleDateFormat("dd MMM yyyy").parse(resDate);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+       /*                     if (dd != null && dd.before(Calendar.getInstance().getTime())) {
+                                final AlertDialog.Builder builder = new AlertDialog.Builder(Reservations.this);
+                                builder.setIcon(R.drawable.logo);
+
+                                builder.setTitle("ما تقييمك لهذه الصالة؟");
+
+                                final View customView = getLayoutInflater().inflate(R.layout.ratingbar, null);
+                                ratingBar = customView.findViewById(R.id.rating);
+
+                                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                                    @Override
+                                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+
+                                        ratingVal = rating;
+
+                                        HashMap<String, Object> map = new HashMap<>();
+                                        map.put("reservationRating", rating);
+                                        myRef.child("Reservations").child(key).updateChildren(map);
+                                        Toast.makeText(Reservations.this, ""+rating, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                                builder.setView(customView);
+                                builder.setCancelable(true);
+
+                                final AlertDialog alertdialog = builder.create();
+                                alertdialog.setButton(Dialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(Reservations.this, ""+ratingVal, Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                                alertdialog.show();
+
+                            }
+                            else
+                                Toast.makeText(Reservations.this, "لا يمكن تقييم الصالة قبل مرور الحجز", Toast.LENGTH_SHORT).show();
+             */           }
+
+                    });
+                    rv.setAdapter(adapt);
+                    rv.setLayoutManager(new LinearLayoutManager(Reservations.this));
+                    rv.setHasFixedSize(true);
+                }else{
+                    Toast.makeText(Reservations.this, "no res", Toast.LENGTH_SHORT).show();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(Reservations.this);
+                    builder.setTitle("");
+                    builder.setIcon(R.drawable.logo);
+
+                    final View customView = getLayoutInflater().inflate(R.layout.no_reservations, null);
+
+                    builder.setView(customView);
+                    builder.setCancelable(true);
+
+                    final AlertDialog alertdialog = builder.create();
+                    alertdialog.show();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
-    @Override
-    public void onListFragmentInteraction(int position) {
-
+    public static String ConvertToDateString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+        return dateFormat.format(date.getTime());
     }
+
+    public void Notify(String title, String contentText, String subText){
+
+
+        String CHANNEL_Id = "Zefaf";
+        String CHANNEL_NAME = "Zefaf";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationChannel ch = new NotificationChannel(CHANNEL_Id, CHANNEL_NAME, importance);
+                    ch.setDescription("notif desc");
+                    ch.setVibrationPattern(new long[]{1000,200,300,200,300,200});
+
+                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    manager.createNotificationChannel(ch);
+
+                }
+
+                Intent i = new Intent(getBaseContext(),MainActivity.class);
+                PendingIntent PI = PendingIntent.getActivity(getBaseContext(),0,i,0);
+
+                NotificationCompat.Builder b = new NotificationCompat.Builder(getBaseContext(),CHANNEL_Id);
+
+                b.setContentTitle(title);
+                b.setContentText(contentText);
+                b.setSubText(subText);
+                b.setSmallIcon(R.drawable.logo);
+                b.setContentIntent(PI);
+
+                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getBaseContext());
+
+                managerCompat.notify(1,b.build());
+
+            }
 }

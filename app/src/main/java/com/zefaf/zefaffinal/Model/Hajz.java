@@ -3,6 +3,9 @@ package com.zefaf.zefaffinal.Model;
 import com.google.firebase.database.Exclude;
 
 public class Hajz {
+
+    @Exclude
+    private String ownerUid;
     private String name, price, adress, dese;
     private String link;
     private String link2;
@@ -10,6 +13,14 @@ public class Hajz {
     private String lat;
 
     public Hajz() {
+    }
+
+    public String getOwnerUid() {
+        return ownerUid;
+    }
+
+    public void setOwnerUid(String ownerUid) {
+        this.ownerUid = ownerUid;
     }
 
     public String getDese() {

@@ -1,5 +1,6 @@
-package com.zefaf.zefaffinal.Fragments;
+package com.zefaf.zefaffinal.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ReservationFragmentRecyclerViewAdapter extends RecyclerView.Adapter<ReservationFragmentRecyclerViewAdapter.ViewHolder> {
+public class ReservationRecyclerViewAdapter extends RecyclerView.Adapter<ReservationRecyclerViewAdapter.ViewHolder> {
 
     private final List<Reservation> mValues;
 
@@ -20,10 +21,14 @@ public class ReservationFragmentRecyclerViewAdapter extends RecyclerView.Adapter
     public static final int RESERVATION_CONFIRMED = 1;
     public static final int RESERVATION_DENIED = 2;
 
-    private final ItemFragment.OnListFragmentInteractionListener mListener;
+    private final OnReservationItemClickListener mListener;
 
-    public ReservationFragmentRecyclerViewAdapter(List<Reservation> items
-            , ItemFragment.OnListFragmentInteractionListener listener
+    public interface OnReservationItemClickListener {
+        void OnReservationItemClick(int position);
+
+    }
+    public ReservationRecyclerViewAdapter(List<Reservation> items
+            , OnReservationItemClickListener listener
     ) {
         mValues = items;
         mListener = listener;
@@ -33,12 +38,13 @@ public class ReservationFragmentRecyclerViewAdapter extends RecyclerView.Adapter
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
+                .inflate(R.layout.reservation_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
         holder.txtVenueName.setText(mValues.get(position).getVenueName());
         holder.txtVenueAddress.setText(mValues.get(position).getVenueAddress());
         holder.txtResTime.setText(mValues.get(position).getReservationDate());
@@ -81,7 +87,7 @@ public class ReservationFragmentRecyclerViewAdapter extends RecyclerView.Adapter
                     if (mListener != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            mListener.onListFragmentInteraction(position);
+                            mListener.OnReservationItemClick(position);
                         }
                     }
                 }

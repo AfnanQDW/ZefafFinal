@@ -13,7 +13,7 @@
         android:layout_height="@dimen/_120sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/logo2"
+        app:srcCompat="@drawable/logo"
         tools:layout_editor_absoluteY="38sdp" />
 
     <TextView

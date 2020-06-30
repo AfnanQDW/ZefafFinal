@@ -164,7 +164,7 @@ public class HajsALan extends AppCompatActivity {
     public void pickDate() {
         // Initialize
         final SwitchDateTimeDialogFragment dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance(
-                "Pick your date",
+                "أختر موعد المناسبة",
                 "OK",
                 "Cancel"
         );

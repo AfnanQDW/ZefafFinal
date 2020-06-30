@@ -8,8 +8,6 @@ import java.util.Map;
 public class Bookmark {
 
     private String uid;
-    @Exclude
-    private String venueId;
     private String venuePic;
     private String venueName;
     private String venueAddress;
@@ -35,14 +33,6 @@ public class Bookmark {
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public String getVenueId() {
-        return venueId;
-    }
-
-    public void setVenueId(String venueId) {
-        this.venueId = venueId;
     }
 
     public String getVenuePic() {

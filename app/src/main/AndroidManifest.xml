@@ -19,9 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BookmarksActivity">
-
-        </activity>
+        <activity android:name=".BookmarksActivity"/>
         <activity android:name=".Notifications" />
         <activity android:name=".MainActivity" />
         <activity android:name=".Regster" />
@@ -33,10 +31,16 @@
         <activity android:name=".SignInActivity" />
         <activity android:name=".LoginAct" />
         <activity android:name=".ActivityMap" />
-        <activity android:name=".HajsALan">
-
-        </activity>
+        <activity android:name=".HajsALan"/>
         <activity android:name=".About" />
+
+        <service
+            android:name=".FirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

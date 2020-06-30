@@ -18,21 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
-
-        </com.google.android.material.tabs.TabLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/pager"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layoutManager="LinearLayoutManager"
+        android:layoutDirection="rtl"
+        tools:listitem="@layout/reservation_item" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

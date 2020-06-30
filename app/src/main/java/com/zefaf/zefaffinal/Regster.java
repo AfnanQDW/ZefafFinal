@@ -32,7 +32,7 @@ public class Regster extends AppCompatActivity {
     private EditText editpassword;
     private Button buttonlogin;
 
-    FirebaseAuth firebaseAuth;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("ZEFAF");
@@ -54,7 +54,7 @@ public class Regster extends AppCompatActivity {
         buttonlogin = findViewById(R.id.buttonlogin);
         progressBar = findViewById(R.id.progressbar);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+
 
         buttonlogin.setOnClickListener(new View.OnClickListener() {
             @Override

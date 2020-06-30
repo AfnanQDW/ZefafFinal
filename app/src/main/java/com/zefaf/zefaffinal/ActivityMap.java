@@ -12,12 +12,16 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.zefaf.zefaffinal.Adapter.HajzAdapter;
 import com.zefaf.zefaffinal.Model.Bookmark;
 import com.zefaf.zefaffinal.Model.Hajz;
@@ -56,6 +60,7 @@ public class ActivityMap extends AppCompatActivity {
     public static final String IMG = "img";
     public static final String IMGFav = "imgfav";
     public static final String IMGLocation = "imgloction";
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -158,7 +163,7 @@ public class ActivityMap extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                Log.i("aa", dataSnapshot.toString());
+                Log.i("AFQ", dataSnapshot.toString());
 
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
 

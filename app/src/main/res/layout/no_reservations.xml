@@ -8,8 +8,7 @@
     android:orientation="vertical"
     android:padding="@dimen/_50sdp"
     android:gravity="center"
-    android:layoutDirection="rtl"
-    tools:context=".Fragments.NoReservationsFragment">
+    android:layoutDirection="rtl">
 
 
     <ImageView

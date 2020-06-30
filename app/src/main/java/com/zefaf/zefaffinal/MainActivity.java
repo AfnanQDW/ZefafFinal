@@ -84,8 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         data.add(new MenuItems(R.drawable.ic_bookmarks, getString(R.string.bookmarks)));
         data.add(new MenuItems(R.drawable.ic_calender, getString(R.string.reservations)));
-//        data.add(new MenuItems(R.drawable.ic_credit_card, getString(R.string.credit_card)));
-//        data.add(new MenuItems(R.drawable.ic_language, getString(R.string.language)));
         data.add(new MenuItems(R.drawable.ic_terms, getString(R.string.terms_of_service)));
         data.add(new MenuItems(R.drawable.ic_policy, getString(R.string.privacy_policy)));
         data.add(new MenuItems(R.drawable.ic_help_center, getString(R.string.help_center)));
@@ -129,9 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
                     default:
                 }
-
             }
         });
     }
-
 }
