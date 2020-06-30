@@ -2,6 +2,7 @@ package com.zefaf.zefaffinal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,11 @@ public class ForGetPassWord extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_for_get_pass_word);
+
+
+        setTitle(R.string.bookmarks);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         mail=findViewById(R.id.mail);
         change=findViewById(R.id.change);
