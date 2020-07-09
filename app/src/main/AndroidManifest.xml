@@ -24,7 +24,6 @@
         <activity android:name=".Regster" />
         <activity android:name=".ForGetPassWord" />
         <activity android:name=".Reservations" />
-        <activity android:name=".VerifyPhoneActivity" />
         <activity android:name=".ProfileInfo" />
         <activity android:name=".EditProfileInfo" />
         <activity android:name=".SignInActivity" />

@@ -10,9 +10,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.zefaf.zefaffinal.Adapter.ReservationRecyclerViewAdapter;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.zefaf.zefaffinal.Model.Bookmark;
 import com.zefaf.zefaffinal.Model.Reservation;
 
 import java.text.ParseException;
@@ -37,6 +40,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,6 +54,7 @@ public class Reservations extends AppCompatActivity {
     ArrayList<Reservation> reservations;
     RecyclerView rv;
     RatingBar ratingBar;
+    Reservation reservation = new Reservation();
 
     String key;
 
@@ -62,13 +67,13 @@ public class Reservations extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mToolbar.setTitle(getString(R.string.reservations));
-        mToolbar.setTitleTextColor(getColor(R.color.white));
-        mToolbar.setBackgroundColor(getColor(R.color.accent));
+
+        mToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
 
         myRef.child("Reservations").child("reservationStatus").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Notify("تم الرد على طلبك","انقر للاطلاع على حجوزاتك","");
+                Notify("تم الرد على طلبك", "انقر للاطلاع على حجوزاتك", "");
             }
 
             @Override
@@ -80,111 +85,110 @@ public class Reservations extends AppCompatActivity {
         getRes();
     }
 
-    public void getRes(){
+    public void getRes() {
 
         rv = findViewById(R.id.list);
         reservations = new ArrayList<>();
 
-        myRef.child("Reservations").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Reservations")
+                .addValueEventListener(new ValueEventListener() {
 
-                final Reservation reservation = dataSnapshot.getValue(Reservation.class);
-                key = dataSnapshot.getKey();
-                reservations.add(reservation);
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                if (!reservations.isEmpty()){
-                    ReservationRecyclerViewAdapter adapt = new ReservationRecyclerViewAdapter(reservations, new ReservationRecyclerViewAdapter.OnReservationItemClickListener() {
-                        @Override
-                        public void OnReservationItemClick(int position) {
+                        for (DataSnapshot snap : snapshot.getChildren()) {
 
-                            String resDate = reservation.getReservationDate();
-                            Date dd = new Date();
-                            try {
-                                dd = new SimpleDateFormat("dd MMM yyyy").parse(resDate);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-       /*                     if (dd != null && dd.before(Calendar.getInstance().getTime())) {
-                                final AlertDialog.Builder builder = new AlertDialog.Builder(Reservations.this);
-                                builder.setIcon(R.drawable.logo);
+                            key = snap.getKey();
 
-                                builder.setTitle("ما تقييمك لهذه الصالة؟");
+                            reservation = snap.getValue(Reservation.class);
+                            reservations.add(reservation);
+                        }
 
-                                final View customView = getLayoutInflater().inflate(R.layout.ratingbar, null);
-                                ratingBar = customView.findViewById(R.id.rating);
+                        if (!reservations.isEmpty()) {
+                            ReservationRecyclerViewAdapter adapt = new ReservationRecyclerViewAdapter(reservations, new ReservationRecyclerViewAdapter.OnReservationItemClickListener() {
+                                @Override
+                                public void OnReservationItemClick(int position) {
 
-                                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                                    @Override
-                                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-
-                                        ratingVal = rating;
-
-                                        HashMap<String, Object> map = new HashMap<>();
-                                        map.put("reservationRating", rating);
-                                        myRef.child("Reservations").child(key).updateChildren(map);
-                                        Toast.makeText(Reservations.this, ""+rating, Toast.LENGTH_SHORT).show();
+                                    String resDate = reservation.getReservationDate();
+                                    Date dd = new Date();
+                                    try {
+                                        dd = new SimpleDateFormat("dd MMM yyyy").parse(resDate);
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
                                     }
-                                });
+                                    if (dd  != null&& dd.before(Calendar.getInstance().getTime())) {
+                                        final AlertDialog.Builder builder = new AlertDialog.Builder(Reservations.this);
+                                        builder.setIcon(R.drawable.logo);
 
-                                builder.setView(customView);
-                                builder.setCancelable(true);
+                                        builder.setTitle("ما تقييمك لهذه الصالة؟");
 
-                                final AlertDialog alertdialog = builder.create();
-                                alertdialog.setButton(Dialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(Reservations.this, ""+ratingVal, Toast.LENGTH_SHORT).show();
+                                        final View customView = getLayoutInflater().inflate(R.layout.ratingbar, null);
+                                        ratingBar = customView.findViewById(R.id.rating);
 
-                                    }
-                                });
-                                alertdialog.show();
+                                        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                                            @Override
+                                            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
-                            }
-                            else
-                                Toast.makeText(Reservations.this, "لا يمكن تقييم الصالة قبل مرور الحجز", Toast.LENGTH_SHORT).show();
-             */           }
+                                                HashMap<String, Object> map = new HashMap<>();
+                                                map.put("reservationRating", rating);
+                                                myRef.child("Reservations").child(key).updateChildren(map);
+                                                Toast.makeText(Reservations.this, "" + rating, Toast.LENGTH_SHORT).show();
 
-                    });
-                    rv.setAdapter(adapt);
-                    rv.setLayoutManager(new LinearLayoutManager(Reservations.this));
-                    rv.setHasFixedSize(true);
-                }else{
-                    Toast.makeText(Reservations.this, "no res", Toast.LENGTH_SHORT).show();
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(Reservations.this);
-                    builder.setTitle("");
-                    builder.setIcon(R.drawable.logo);
 
-                    final View customView = getLayoutInflater().inflate(R.layout.no_reservations, null);
+                                            }
+                                        });
 
-                    builder.setView(customView);
-                    builder.setCancelable(true);
+                                        builder.setView(customView);
+                                        builder.setCancelable(true);
 
-                    final AlertDialog alertdialog = builder.create();
-                    alertdialog.show();
-                }
-            }
+                                        final AlertDialog alertdialog = builder.create();
+                                        alertdialog.setButton(Dialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Toast.makeText(Reservations.this, "Thanks", Toast.LENGTH_SHORT).show();
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                                            }
+                                        });
+                                        alertdialog.show();
 
-            }
+                                    } else
+                                        Toast.makeText(Reservations.this, "لا يمكن تقييم الصالة قبل مرور الحجز", Toast.LENGTH_SHORT).show();
+                                }
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                            });
+                            rv.setAdapter(adapt);
+                            rv.setLayoutManager(new LinearLayoutManager(Reservations.this));
+                            rv.setHasFixedSize(true);
+                            adapt.notifyDataSetChanged();
+                        } else {
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(Reservations.this);
+                            builder.setTitle("");
+                            builder.setIcon(R.drawable.logo);
 
-            }
+                            final View customView = getLayoutInflater().inflate(R.layout.no_reservations, null);
+                            Button b = customView.findViewById(R.id.button3);
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                            b.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent i = new Intent(Reservations.this,ActivityMap.class);
+                                    startActivity(i);
+                                }
+                            });
 
-            }
+                            builder.setView(customView);
+                            builder.setCancelable(true);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            final AlertDialog alertdialog = builder.create();
+                            alertdialog.show();
+                        }
+                    }
 
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
 
@@ -193,37 +197,37 @@ public class Reservations extends AppCompatActivity {
         return dateFormat.format(date.getTime());
     }
 
-    public void Notify(String title, String contentText, String subText){
+    public void Notify(String title, String contentText, String subText)  {
 
 
         String CHANNEL_Id = "Zefaf";
         String CHANNEL_NAME = "Zefaf";
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel ch = new NotificationChannel(CHANNEL_Id, CHANNEL_NAME, importance);
-                    ch.setDescription("notif desc");
-                    ch.setVibrationPattern(new long[]{1000,200,300,200,300,200});
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel ch = new NotificationChannel(CHANNEL_Id, CHANNEL_NAME, importance);
+            ch.setDescription("notif desc");
+            ch.setVibrationPattern(new long[]{1000, 200, 300, 200, 300, 200});
 
-                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                    manager.createNotificationChannel(ch);
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            manager.createNotificationChannel(ch);
 
-                }
+        }
 
-                Intent i = new Intent(getBaseContext(),MainActivity.class);
-                PendingIntent PI = PendingIntent.getActivity(getBaseContext(),0,i,0);
+        Intent i = new Intent(getBaseContext(), MainActivity.class);
+        PendingIntent PI = PendingIntent.getActivity(getBaseContext(), 0, i, 0);
 
-                NotificationCompat.Builder b = new NotificationCompat.Builder(getBaseContext(),CHANNEL_Id);
+        NotificationCompat.Builder b = new NotificationCompat.Builder(getBaseContext(), CHANNEL_Id);
 
-                b.setContentTitle(title);
-                b.setContentText(contentText);
-                b.setSubText(subText);
-                b.setSmallIcon(R.drawable.logo);
-                b.setContentIntent(PI);
+        b.setContentTitle(title);
+        b.setContentText(contentText);
+        b.setSubText(subText);
+        b.setSmallIcon(R.drawable.logo);
+        b.setContentIntent(PI);
 
-                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getBaseContext());
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getBaseContext());
 
-                managerCompat.notify(1,b.build());
+        managerCompat.notify(1, b.build());
 
-            }
+    }
 }

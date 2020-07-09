@@ -20,8 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private ImageView mImageView2;
-
     private TextView tvforgetpassword;
     private TextView mTextnewaccount;
     private EditText editEmail;
@@ -29,15 +27,12 @@ public class SignInActivity extends AppCompatActivity {
     private EditText mEditTextpass;
     private Button mButtonlogin;
 
-    private ProgressBar progressBar;
     FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-
-        mImageView2 = findViewById(R.id.imageView2);
 
         tvforgetpassword = findViewById(R.id.tvforgetpass);
         mTextnewaccount = findViewById(R.id.textnewaccount);
@@ -69,7 +64,6 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        progressBar = findViewById(R.id.progressbar);
     }
 
     private void userlogin() {
@@ -97,13 +91,9 @@ public class SignInActivity extends AppCompatActivity {
         }
 
 
-        progressBar.setVisibility(View.VISIBLE);
-
-
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     finish();
                     Intent intent = new Intent(SignInActivity.this, ActivityMap.class);

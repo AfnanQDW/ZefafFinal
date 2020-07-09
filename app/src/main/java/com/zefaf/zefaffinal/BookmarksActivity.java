@@ -28,11 +28,11 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BookmarksActivity extends AppCompatActivity {
-
 
     private ArrayList<Bookmark> mExampleList = new ArrayList<>();
 
@@ -46,7 +46,6 @@ public class BookmarksActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("ZEFAF");
 
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +56,7 @@ public class BookmarksActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        myToolbar.setTitleTextColor(getColor(R.color.white));
-        myToolbar.setBackgroundColor(getColor(R.color.accent));
+        myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
 
         progressCircle = findViewById(R.id.progress_circle);
 
@@ -69,7 +67,8 @@ public class BookmarksActivity extends AppCompatActivity {
 
     public void removeItem(int position) {
         mExampleList.remove(position);
-        myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmarks").child(key).removeValue();
+        myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("Bookmarks").child(key).removeValue();
         mAdapter.notifyItemRemoved(position);
     }
 
@@ -77,7 +76,6 @@ public class BookmarksActivity extends AppCompatActivity {
     public void createExampleList() {
 
         progressCircle.setVisibility(View.VISIBLE);
-//        myRef.child("Bookmarks");
         myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmarks")
                 .addValueEventListener(new ValueEventListener() {
             @Override

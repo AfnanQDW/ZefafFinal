@@ -3,6 +3,7 @@ package com.zefaf.zefaffinal;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,37 +27,34 @@ public class ForGetPassWord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_for_get_pass_word);
 
-        setTitle(R.string.bookmarks);
+        setTitle("تغيير كلمة المرور");
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
 
-        mail=findViewById(R.id.mail);
-        change=findViewById(R.id.change);
-        firebaseAuth=FirebaseAuth.getInstance();
+        mail = findViewById(R.id.mail);
+        change = findViewById(R.id.change);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id=mail.getText().toString();
-                if(id.equals(""))
-                {
-                    Toast.makeText(getApplicationContext(),"Enter Your email ID", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                String id = mail.getText().toString();
+                if (id.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Enter Your email ID", Toast.LENGTH_SHORT).show();
+                } else {
 
                     firebaseAuth.sendPasswordResetEmail(id).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 
-                            if(task.isSuccessful())
-                            {
+                            if (task.isSuccessful()) {
                                 firebaseAuth.signOut();
                                 startActivity(new Intent(getApplicationContext(), SignInActivity.class));
-                                Toast.makeText(getApplicationContext(),"Password Reset Code sent to your email",Toast.LENGTH_SHORT).show();
-                            }
-                            else{
+                                Toast.makeText(getApplicationContext(), "Password Reset Code sent to your email", Toast.LENGTH_SHORT).show();
+                            } else {
                                 firebaseAuth.signOut();
-                                Toast.makeText(getApplicationContext(),"Error to sent email",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Error to sent email", Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -66,7 +64,6 @@ public class ForGetPassWord extends AppCompatActivity {
                 }
             }
         });
-
 
 
     }

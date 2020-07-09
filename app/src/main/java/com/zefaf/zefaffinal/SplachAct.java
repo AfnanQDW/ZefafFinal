@@ -13,7 +13,6 @@ public class SplachAct extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,10 +37,7 @@ public class SplachAct extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }) {
-
-
-        };
+        }) ;
         thread.start();
     }
 }

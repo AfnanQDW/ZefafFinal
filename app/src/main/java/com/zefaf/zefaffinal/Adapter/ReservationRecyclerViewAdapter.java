@@ -17,8 +17,11 @@ public class ReservationRecyclerViewAdapter extends RecyclerView.Adapter<Reserva
 
     private final List<Reservation> mValues;
 
+    //الحجز قيد المراجعة
     public static final int RESERVATION_PENDING = 0;
+    //الحجز تم التاكيد عليه
     public static final int RESERVATION_CONFIRMED = 1;
+    //الحجز تم رفضه
     public static final int RESERVATION_DENIED = 2;
 
     private final OnReservationItemClickListener mListener;
@@ -32,7 +35,6 @@ public class ReservationRecyclerViewAdapter extends RecyclerView.Adapter<Reserva
     ) {
         mValues = items;
         mListener = listener;
-
     }
 
     @Override

@@ -6,127 +6,135 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
+    android:padding="@dimen/_10sdp"
     tools:context=".SignInActivity">
 
     <Button
         android:id="@+id/buttonlogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_18sdp"
-        android:layout_marginEnd="@dimen/_18sdp"
-        android:layout_marginBottom="@dimen/_145sdp"
         android:background="@drawable/shape"
         android:text="تسجيل دخول"
         android:textColor="#fff"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/tvforgetpass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextpass" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layoutDirection="rtl"
+        app:passwordToggleEnabled="true"
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="457dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextpass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_270sdp"
-        android:layout_marginEnd="@dimen/_15sdp"
         android:background="@drawable/selector_edittext"
-        android:drawableStart="@drawable/ic_showpass"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:padding="@dimen/_10sdp"
         android:textDirection="rtl"
+        app:layout_constraintBottom_toTopOf="@+id/buttonlogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editEmail" />
+
 
     <EditText
         android:id="@+id/editEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_200sdp"
-        android:layout_marginEnd="@dimen/_15sdp"
         android:background="@drawable/selector_edittext"
         android:drawableStart="@drawable/ic_phone"
         android:hint="@string/email_address"
         android:inputType="textEmailAddress"
         android:padding="@dimen/_10sdp"
-        android:textDirection="rtl"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/editTextpass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_120sdp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
-    <ProgressBar
-        android:id="@+id/progressbar"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginEnd="@dimen/_204sdp"
-        android:text="ليس لديك حساب؟"
-        android:textSize="@dimen/_15ssp"
-        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editEmail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textnewaccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_220sdp"
-        android:text="إنشاء حساب"
-        android:textColor="#F52D56"
-        android:textSize="@dimen/_18ssp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="ليس لديك حساب؟"
+            android:textSize="@dimen/_15ssp"
+            tools:layout_editor_absoluteX="204dp"
+            tools:layout_editor_absoluteY="314dp" />
+
+        <TextView
+            android:id="@+id/textnewaccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="إنشاء حساب"
+            android:textColor="#F52D56"
+            android:textSize="@dimen/_18ssp"
+            tools:layout_editor_absoluteX="88dp"
+            tools:layout_editor_absoluteY="311dp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvforgetpass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_100sdp"
         android:text="هل نسيت كلمة المرور؟"
         android:textColor="#F52D56"
         android:textSize="@dimen/_20ssp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonlogin" />
 
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_110sdp"
         android:text="تسجيل الدخول الى حسابك"
         android:textColor="#3D1458"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

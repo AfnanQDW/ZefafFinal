@@ -102,11 +102,12 @@ public class HajsALan extends AppCompatActivity {
                     bkm.setVenueName(txtVenueName.getText().toString());
 
 //                    myRef.child("Bookmark").push().setValue(bkm);
-                    myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmarks").push().setValue(bkm).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Bookmarks").push().setValue(bkm).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Snackbar.make(parentLayout, "تمت الاضافة للمفضلة", BaseTransientBottomBar.LENGTH_LONG).setAction("الذهاب ggltqgm", new View.OnClickListener() {
+                                Snackbar.make(parentLayout, "تمت الاضافة للمفضلة", BaseTransientBottomBar.LENGTH_LONG).setAction("الذهاب للمفضلة", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         Intent intent = new Intent(HajsALan.this, BookmarksActivity.class);
@@ -123,7 +124,8 @@ public class HajsALan extends AppCompatActivity {
                     imgBookmark.setImageResource(R.drawable.ic_bookmark_filled);
                 } else {
 
-                    myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmarks").addValueEventListener(new ValueEventListener() {
+                    myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("Bookmarks").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot snap : snapshot.getChildren()) {
@@ -131,7 +133,8 @@ public class HajsALan extends AppCompatActivity {
                                 String key = snap.getKey();
 
                                 if (key != null) {
-                                    myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmarks").child(key).removeValue();
+                                    myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .child("Bookmarks").child(key).removeValue();
                                     imgBookmark.setImageResource(R.drawable.ic_bookmark_border);
                                 }
                             }
@@ -195,7 +198,7 @@ public class HajsALan extends AppCompatActivity {
 
     public void sendOrder() {
 
-        Reservation r = new Reservation();
+        final Reservation r = new Reservation();
         if (auth.getCurrentUser() != null) {
             r.setUserName(auth.getCurrentUser().getDisplayName());
         }
@@ -205,10 +208,14 @@ public class HajsALan extends AppCompatActivity {
         r.setReservationDate(orderDate);
         r.setReservationStatus(0);
 
-        myRef.child("Reservations").push().setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
+        myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("Reservations").push().setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
+
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+
                 if (task.isSuccessful()) {
+                    myRef.child("Reservations").push().setValue(r);
                     Snackbar.make(parentLayout, "تمت اضافة الطلب", BaseTransientBottomBar.LENGTH_LONG).setAction("الذهاب للحجوزات", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

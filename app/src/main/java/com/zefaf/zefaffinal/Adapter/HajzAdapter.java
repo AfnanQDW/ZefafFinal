@@ -34,7 +34,6 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
     public void filterList(ArrayList<Hajz> filteredList) {
         hajzs = filteredList;
         notifyDataSetChanged();
-
     }
 
     public HajzAdapter(ArrayList<Hajz> emps, Context mContext) {
@@ -82,7 +81,6 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
         private TextView txtVenueAddress;
         private ImageView mBookmarkImage;
         private ImageView imageView8;
-        private ImageView imageView13;
         Intent intent;
 
         public void goToMap() {
@@ -94,7 +92,6 @@ public class HajzAdapter extends RecyclerView.Adapter<HajzAdapter.Hajzviewholder
 
                 mContext.startActivity(intent);
             } else {
-//                Toast.makeText(mContext, "موقع الصالة غير متوفر", Toast.LENGTH_SHORT).show();
                 intent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse("geo:31.5247923,34.4432588"));
                 mContext.startActivity(intent);

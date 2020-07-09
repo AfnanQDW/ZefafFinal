@@ -43,13 +43,11 @@ public class ActivityMap extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("ZEFAF");
 
-    private ImageView mImgNotifications;
     private ImageView mImgMenu;
     private EditText mEditTextserash;
 
     private RecyclerView mRecyclerView;
     private HajzAdapter mAdapter;
-    private ProgressBar mProgressCircle;
 
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -58,10 +56,6 @@ public class ActivityMap extends AppCompatActivity {
     public static final String Price = "price";
     public static final String Desc = "descraption";
     public static final String IMG = "img";
-    public static final String IMGFav = "imgfav";
-    public static final String IMGLocation = "imgloction";
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -72,10 +66,8 @@ public class ActivityMap extends AppCompatActivity {
         showdata();
         buildRecycler();
 
-        mImgNotifications = findViewById(R.id.imgNotifications);
         mImgMenu = findViewById(R.id.imgMenu);
         mEditTextserash = findViewById(R.id.editTextserash);
-        mProgressCircle = findViewById(R.id.progress_circle);
 
         mImgMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,14 +76,6 @@ public class ActivityMap extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        mImgNotifications.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ActivityMap.this, Notifications.class);
-                startActivity(intent);
-            }
-        });
-
         mEditTextserash = findViewById(R.id.editTextserash);
 
         mEditTextserash.addTextChangedListener(new TextWatcher() {
@@ -137,23 +121,6 @@ public class ActivityMap extends AppCompatActivity {
                 startActivity(detailIntent);
             }
 
-//            @Override
-//            public void onBookmarkClick(int position) {
-//                Hajz h = mUploads.get(position);
-//
-//                Bookmark bk = new Bookmark();
-//                bk.setVenueName(h.getName());
-//                bk.setVenueAddress(h.getAdress());
-//                bk.setVenuePic(h.getLink());
-//                bk.setVenueRating("4");
-//                bk.setUid(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
-//
-//                myRef.child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Bookmark").push().setValue(bk);
-//
-////                myRef.child("Bookmark").push().setValue(bk);
-//                Toast.makeText(ActivityMap.this, "تمت اضافة الصالة للمفضلة", Toast.LENGTH_SHORT).show();
-//
-//            }
         });
     }
 
@@ -162,8 +129,6 @@ public class ActivityMap extends AppCompatActivity {
         myRef.child("Venues").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                Log.i("AFQ", dataSnapshot.toString());
 
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
 
@@ -199,7 +164,7 @@ public class ActivityMap extends AppCompatActivity {
         ArrayList<Hajz> filteredList = new ArrayList<>();
         for (Hajz item : mUploads) {
             if (item.getName().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(item);
+                    filteredList.add(item);
             }
         }
         mAdapter.filterList(filteredList);

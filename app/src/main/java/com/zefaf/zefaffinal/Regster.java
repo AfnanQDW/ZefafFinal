@@ -117,8 +117,6 @@ public class Regster extends AppCompatActivity {
 
                             if (user != null) {
 
-                                user.updateEmail(email);
-
                                 UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(name)
                                         .build();
